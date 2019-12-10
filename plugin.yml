@@ -1,6 +1,6 @@
 name: WHIMCPortals
 main: me.jackah2.WHIMCPortals.Main
-author: jackah2
+author: Jack Henhapl
 version: 2.0
 load: POSTWORLD
 softdepend: [Multiverse-Core]
