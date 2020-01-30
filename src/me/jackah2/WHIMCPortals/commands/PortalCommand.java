@@ -21,7 +21,7 @@ import me.jackah2.WHIMCPortals.utils.Messager.ReplaceMessage;
 public class PortalCommand implements CommandExecutor {
 
 	private final String[] subCommands = {"tool", "create", "remove", "setfiller", "refill", "list", "info", "debug"};
-	private final ItemStack tool = item(Material.WOOD_SWORD, ChatColor.AQUA + "Portal Tool");
+	private final ItemStack tool = item(Material.WOODEN_SWORD, ChatColor.AQUA + "Portal Tool");
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (!sender.hasPermission("portals.admin")){

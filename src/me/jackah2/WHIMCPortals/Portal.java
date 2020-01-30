@@ -21,15 +21,13 @@ public class Portal {
 
 	private static List<Portal> portals = new ArrayList<>();
 	private static Map<String, Portal> portalData = new HashMap<>();
-	private static Material defaultFiller = Material.STATIONARY_WATER;
+	private static Material defaultFiller = Material.WATER;
 	private static final Set<Material> validFillers = new HashSet<>(Arrays.asList(
 			Material.AIR,
 			Material.WATER,
-			Material.STATIONARY_WATER,
 			Material.LAVA,
-			Material.STATIONARY_LAVA,
-			Material.PORTAL,
-			Material.WEB));
+			Material.NETHER_PORTAL,
+			Material.COBWEB));
 
 	private String name;
 	private String worldName;

@@ -29,7 +29,7 @@ public class ToolSelectListener implements Listener{
 		
 		Player player = event.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();
-		if(item == null || item.getType() != Material.WOOD_SWORD) return;
+		if(item == null || item.getType() != Material.WOODEN_SWORD) return;
 		
 		UUID uuid = player.getUniqueId();
 		Location loc = event.getClickedBlock().getLocation();
