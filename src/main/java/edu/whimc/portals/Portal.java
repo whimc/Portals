@@ -170,15 +170,13 @@ public class Portal {
 		Main.portalData.removeKey("Portals." + this.name);
 		Main.portalData.saveConfig();
 		Main.portalData.reloadConfig();
-
-
 	}
 
 	public void setFiller(Material filler) {
 		this.removeFiller();
 		this.filler = filler;
 		this.addFiller();
-		
+
 		Main.portalData.set("Portals." + name + ".filler", this.filler.toString());
 		Main.portalData.saveConfig();
 		Main.portalData.reloadConfig();

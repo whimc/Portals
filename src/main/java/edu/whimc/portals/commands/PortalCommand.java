@@ -46,10 +46,10 @@ public class PortalCommand implements CommandExecutor {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			player = (Player) sender;
 			player.getInventory().addItem(tool);
-			
+
 			Messager.msg(sender, Message.PORTAL_TOOL_GIVEN);
 		}
 
@@ -58,32 +58,32 @@ public class PortalCommand implements CommandExecutor {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			if (args.length < 2){
 				Messager.usage(sender, "/portal create [name]");
 				return true;
 			}
-			
+
 			player = (Player) sender;
 			Location pos1 = ToolSelectListener.leftClicks.get(player.getUniqueId());
 			Location pos2 = ToolSelectListener.rightClicks.get(player.getUniqueId());
-			
+
 			if (pos1 == null || pos2 == null){
 				Messager.msg(sender, Message.POS_BOTH_NOT_SELECTED);
 				return true;
 			}
-			
+
 			if (!pos1.getWorld().getName().equals(pos2.getWorld().getName())){
 				Messager.msg(sender, Message.POS_IN_DIFF_WORLDS);
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal != null) {
 				Messager.msg(sender, ReplaceMessage.PORTAL_ALREADY_EXISTS, portal.getName());
 				return true;
 			}
-			
+
 			Portal.createPortal(args[1], player.getWorld(), pos1.toVector(), pos2.toVector());
 			Messager.msg(sender, ReplaceMessage.PORTAL_CREATE_SUCCESS, args[1]);
 		}
@@ -93,73 +93,73 @@ public class PortalCommand implements CommandExecutor {
 				Messager.usage(sender, "/portal remove [portal]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null){
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			portal.setDestination(null);
 			Main.portalData.removeKey("Portals." + portal.getName());
 			portal.remove();
 			Main.portalData.saveConfig();
 			Main.portalData.reloadConfig();
-			
+
 			Messager.msg(sender, ReplaceMessage.PORTAL_REMOVE_SUCCESS, portal.getName());
 			return true;
 		}
-		
+
 		if (command.equalsIgnoreCase("setfiller")) {
-			
+
 			if (args.length < 3) {
 				Messager.usage(sender, "/portal setfiller [portal] [block]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null) {
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			if (!portal.isValid()) {
 				Messager.msg(sender, ReplaceMessage.PORTAL_INVALID, portal.getName());
 				Messager.msg(sender, ReplaceMessage.SUGGEST_DELETE, "/portal remove " + portal.getName());
 				return true;
 			}
-			
+
 			Material mat = Material.matchMaterial(args[2]);
 			if (mat == null || !Portal.isValidFiller(mat)) {
 				Messager.msg(sender, ReplaceMessage.INVALID_FILLER, args[2]);
 				return true;
 			}
-			
+
 			portal.setFiller(mat);
-			
+
 			Messager.msg(sender, Messager.prefix + "&aThe filler of '&2" + portal.getName() + "&a' " + 
 					"has been set to '&2" + mat.toString() + "&a'!");
 			return true;
 		}
-		
+
 		if (command.equalsIgnoreCase("refill")) {
 			if (args.length < 2){
 				Messager.usage(sender, "/portal refill [portal]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null){
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			if (!portal.isValid()) {
 				Messager.msg(sender, ReplaceMessage.PORTAL_INVALID, portal.getName());
 				Messager.msg(sender, ReplaceMessage.SUGGEST_DELETE, "/portal remove " + portal.getName());
 				return true;
 			}
-			
+
 			portal.addFiller();
 			Messager.msg(sender, ReplaceMessage.PORTAL_REFILLED, portal.getName());
 			return true;
@@ -170,13 +170,13 @@ public class PortalCommand implements CommandExecutor {
 				Messager.msg(sender, Message.NO_PORTALS);
 				return true;
 			}
-			
+
 			Messager.msg(sender, Message.LINE_PORTAL_LIST);
 			for (Portal portal:Portal.getPortals()) {
 				Messager.msg(sender, ChatColor.ITALIC + "- " + portal.toString());
 			}
 			Messager.msg(sender, Message.LINE);
-			
+
 			return true;
 		}
 
@@ -185,25 +185,25 @@ public class PortalCommand implements CommandExecutor {
 				Messager.usage(sender, "/portal info [name]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null){
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			Messager.sendPortalInfo(sender, portal);
 			return true;
 		}
-		
+
 		if (command.equalsIgnoreCase("debug")) {
 			if (!(sender instanceof Player)) {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			player = (Player) sender;
-			
+
 			if (PortalEnterListener.playerIsDebug(player)) {
 				PortalEnterListener.removeDebugPlayer(player);
 				Messager.msg(player, Message.DEBUG_DISABLE);
@@ -212,7 +212,7 @@ public class PortalCommand implements CommandExecutor {
 				Messager.msg(player, Message.DEBUG_ENABLE);
 			}
 		}
-		
+
 		return true;
 	}
 

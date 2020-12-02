@@ -34,7 +34,7 @@ public class LocationSaver {
 		Main.portalData.saveConfig();
 		Main.portalData.reloadConfig();
 	}
-	
+
 	public static void saveVector(Vector vector, String path){
 		int x,y,z;
 		x = vector.getBlockX();

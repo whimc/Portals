@@ -51,7 +51,7 @@ public class MyConfig{
 	public double getDouble(String path) {return this.config.getDouble(path);}
 
 	public double getDouble(String path, double def) {return this.config.getDouble(path, def);}
-	
+
 	public float getFloat(String path) {return Float.valueOf(this.config.getString(path));}
 
 	public List<?> getList(String path) {return this.config.getList(path);}
@@ -63,7 +63,7 @@ public class MyConfig{
 	public boolean contains(String path) {return this.config.contains(path);}
 
 	public void removeKey(String path) {this.config.set(path, null);}
-	
+
 	public Set<String> getKeys() {return this.config.getKeys(false);}
 
 	public void set(String path, Object value) {this.config.set(path, value);}
@@ -101,7 +101,7 @@ public class MyConfig{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//this.config = YamlConfiguration.loadConfiguration(file);
 		//this.config = YamlConfiguration.loadConfiguration(manager.getConfigContent(file));
 	}

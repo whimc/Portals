@@ -27,14 +27,14 @@ public class MyConfigManager
 	public MyConfig getNewConfig(String fileName, String[] header) 
 	{
 		File file = this.getConfigFile(fileName);
-		
+
 		if(!file.exists())
 		{
 			this.prepareFile(fileName);
 			if(header != null && header.length != 0) 
 				this.setHeader(file, header);
 		}
-		
+
 		MyConfig config = new MyConfig(/*this.getConfigContent(fileName), */file, this.getCommentsNum(file), plugin);
 		return config;
 	}
@@ -134,7 +134,7 @@ public class MyConfigManager
 		} 
 		catch (IOException e){e.printStackTrace();}
 	}
-	
+
 	public InputStream getConfigContent(File file) 
 	{
 		if(!file.exists()) 
@@ -268,7 +268,7 @@ public class MyConfigManager
 	{
 		return plugin.getDescription().getName();
 	}
-	
+
 	private void copyResource(InputStream resource, File file) 
 	{
 		try

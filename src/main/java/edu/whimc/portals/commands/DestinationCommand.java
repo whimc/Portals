@@ -34,206 +34,206 @@ public class DestinationCommand implements CommandExecutor{
 		}
 
 		Player player;
-		
-		
+
+
 		if (command.equalsIgnoreCase("create")) {
 			if (!(sender instanceof Player)) {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			if (args.length < 2) {
 				Messager.usage(sender, "/destination create [name]");
 				return true;
 			}
-			
+
 			if (args[1].equalsIgnoreCase(Destination.NONE)) {
 				Messager.msg(sender, Message.NONE_RESERVED_WORD);
 				return true;
 			}
-			
+
 			Destination dest = Destination.getDestination(args[1]);
 			if (dest != null) {
 				Messager.msg(sender, ReplaceMessage.DESTINATION_ALREADY_EXISTS, dest.getName());
 				return true;
 			}
-			
+
 			player = (Player) sender;
 			Destination.createDestination(args[1], player.getLocation());
-			
+
 			Messager.msg(sender, ReplaceMessage.DESTINATION_CREATE_SUCCESS, args[1]);
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("change")) {
-			
+
 			if (!(sender instanceof Player)) {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			if (args.length < 2) {
 				Messager.usage(sender, "/destination change [destination]");
 				return true;
 			}
-			
+
 			Destination dest = Destination.getDestination(args[1]);
 			if (dest == null) {
 				Messager.msg(sender, ReplaceMessage.DESTINATION_DOES_NOT_EXIST, args[2]);
 				return true;
 			}
-			
+
 			player = (Player) sender;
 			dest.setLocation(player.getLocation());
 			Messager.msg(sender, ReplaceMessage.DESTINATION_CHANGE_SUCCESS, dest.getName());
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("set")) {
-			
+
 			if (args.length < 3) {
 				Messager.usage(sender, "/destination set [portal] [destination]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null) {
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			Destination dest = Destination.getDestination(args[2]);
 			if (dest == null) {
 				Messager.msg(sender, ReplaceMessage.DESTINATION_DOES_NOT_EXIST, args[2]);
 				return true;
 			}
-			
+
 			portal.setDestination(dest);
 			Messager.msg(sender, Messager.prefix + "&aThe destination of '&2" + portal.getName() + "&a' " + 
 					"has been set to '&2" + dest.getName() + "&a'!");
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("sethere")){
-			
+
 			if (!(sender instanceof Player)) {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			if (args.length < 2){
 				Messager.usage(sender, "/destination sethere [portal]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null){
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			String destName = portal.getName();
 			player = (Player) sender;
 			Destination dest = Destination.getDestination(destName);
-			
+
 			if (dest == null) {
 				dest = Destination.createDestination(destName, player.getLocation());
 			} else {
 				dest.setLocation(player.getLocation());
 			}
-			
-			
+
+
 			portal.setDestination(dest);
 			Messager.msg(sender, Messager.prefix + "&aThe destination of '&2" + portal.getName() + "&a' " + 
 					"has been set to your current location!");
 			Messager.msg(sender, "  &7(Destination named &8'&7&o" + portal.getName() + "&8'&7)");
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("clear")) {
-			
+
 			if (args.length < 2) {
 				Messager.usage(sender, "/destination clear [portal]");
 				return true;
 			}
-			
+
 			Portal portal = Portal.getPortal(args[1]);
 			if (portal == null) {
 				Messager.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			portal.setDestination(null);
 			Messager.msg(sender, ReplaceMessage.PORTAL_DEST_CLEARED, portal.getName());
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("remove")){
-			
+
 			if (args.length < 2){
 				Messager.usage(sender, "/destination remove [name]");
 				return true;
 			}
-			
+
 			Destination dest = Destination.getDestination(args[1]);
 			if (dest == null) {
 				Messager.msg(sender, ReplaceMessage.DESTINATION_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			dest.remove();
 			Messager.msg(sender, ReplaceMessage.DESTINATION_REMOVE_SUCCESS, dest.getName());
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("list")){
-			
+
 			if (Destination.getDestinations().size() == 0) {
 				Messager.msg(sender, Message.NO_DESTINATIONS);
 				return true;
 			}
-			
+
 			Messager.msg(sender, Message.LINE_DESTINATION_LIST);
 			for (Destination dest : Destination.getDestinations()) {
 				Messager.msg(sender, ChatColor.ITALIC + "- " + dest.toString());
 			}
 			Messager.msg(sender, Message.LINE);
-			
+
 			return true;
 		}
-		
-		
+
+
 		if (command.equalsIgnoreCase("info")){
-			
+
 			if (args.length < 2){
 				Messager.usage(sender, "/destination info [name]");
 				return true;
 			}
-			
+
 			Destination dest = Destination.getDestination(args[1]);
 			if (dest == null){
 				Messager.msg(sender, ReplaceMessage.DESTINATION_DOES_NOT_EXIST, args[1]);
 				return true;
 			}
-			
+
 			Messager.sendDestinationInfo(sender, dest);
 			return true;
 		}
-		
+
 
 		if (command.equalsIgnoreCase("teleport")){
-			
+
 			if (!(sender instanceof Player)) {
 				Messager.msg(sender, Message.MUST_BE_PLAYER);
 				return true;
 			}
-			
+
 			if (args.length < 2){
 				Messager.usage(sender, "/destination teleport [name]");
 				return true;
@@ -249,7 +249,7 @@ public class DestinationCommand implements CommandExecutor{
 				Messager.msg(sender, ReplaceMessage.DESTINATION_INVALID, dest.getName());
 				return true;
 			}
-			
+
 			player = (Player) sender;
 			dest.teleport(player);
 			Messager.msg(sender, ReplaceMessage.DESTINATION_TELEPORTED, dest.getName());

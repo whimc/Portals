@@ -19,7 +19,7 @@ import edu.whimc.portals.utils.MyConfigManager;
 public class Main extends JavaPlugin{
 	public MyConfigManager manager;
 	public static MyConfig portalData;
-	
+
 	@Override
 	public void onEnable(){
 		manager = new MyConfigManager(this);
@@ -28,13 +28,13 @@ public class Main extends JavaPlugin{
 		registerStuff();
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	}
-	
+
 	@Override
 	public void onDisable(){
 		ToolSelectListener.leftClicks.clear();
 		ToolSelectListener.rightClicks.clear();
 	}
-	
+
 	private void registerStuff(){
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PortalEnterListener(), this);
@@ -51,39 +51,39 @@ public class Main extends JavaPlugin{
 			for (String key : portalData.getConfigurationSection("Destinations").getKeys(false)) {
 				path = "Destinations." + key;
 				destLoc = LocationSaver.getLocation(path);
-				
+
 				path = "Destinations." + key + ".world";
 				destWorldName = portalData.getString(path);
-				
+
 				Destination.loadDestination(key, destLoc, destWorldName);
 			}
 		}
-		
+
 		if(portalData.contains("Portals")){
 			String path, portalWorldName, fillerName;
 			Destination dest;
 			Vector pos1, pos2;
 			Material filler;
 			for(String key : portalData.getConfigurationSection("Portals").getKeys(false)){
-				
+
 				path = "Portals." + key + ".pos1";
 				pos1 = new Vector(portalData.getInt(path+".x"), portalData.getInt(path+".y"), portalData.getInt(path+".z"));
-				
+
 				path = "Portals." + key + ".pos2";
 				pos2 = new Vector(portalData.getInt(path+".x"), portalData.getInt(path+".y"), portalData.getInt(path+".z"));
-				
+
 				path = "Portals." + key + ".destination";
 				dest = Destination.getDestination(portalData.getString(path));
-				
+
 				portalWorldName = portalData.getString("Portals." + key + ".world");
-				
+
 				fillerName = portalData.getString("Portals." + key + ".filler");
 				if (fillerName == null) filler = null;
 				else filler = Material.matchMaterial(fillerName);
-				
+
 				Portal.loadPortal(key, portalWorldName, pos1, pos2, dest, filler);
 			}
 		}
 	}
-	
+
 }

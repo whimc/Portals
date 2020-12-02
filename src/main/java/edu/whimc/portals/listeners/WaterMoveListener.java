@@ -18,14 +18,14 @@ public class WaterMoveListener implements Listener{
 		Portal portal = Portal.getPortal(loc);
 		if (portal != null) event.setCancelled(true);
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockForm(BlockFormEvent event) {
 		Location loc = event.getBlock().getLocation();
 		Portal portal = Portal.getPortal(loc);
 		if (portal != null) event.setCancelled(true);
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityBlockForm(EntityBlockFormEvent event) {
 		Location loc = event.getBlock().getLocation();
