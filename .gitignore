@@ -1,22 +1,16 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
+# Eclipse
 .classpath
 .project
+.settings/
 
-# idea
-out
-*.ipr
-*.iws
+# Intellij
+.idea/
 *.iml
-.idea
+*.iws
 
-# gradle
-build
-.gradle
+# Mac
+.DS_Store
 
-# other
-eclipse
-run
+# Maven
+log/
+target/

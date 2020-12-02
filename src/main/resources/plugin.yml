@@ -1,0 +1,13 @@
+name: WHIMCPortals
+author: Jack Henhapl
+main: edu.whimc.portals.Main
+version: ${project.version}
+api-version: 1.13
+description: Create portals for player teleportation
+load: POSTWORLD
+softdepend: [Multiverse-Core]
+commands:
+  portal:
+    description: Root command for WHIMC Portals
+  destination:
+    description: Root command for WHIMC Portal
