@@ -1,9 +1,9 @@
 name: ${project.artifactId}
 version: ${project.version}
+description: ${project.description}
 author: Jack Henhapl
 api-version: 1.13
 main: edu.whimc.portals.Main
-description: Create portals for player teleportation
 load: POSTWORLD
 softdepend: [Multiverse-Core]
 commands:
