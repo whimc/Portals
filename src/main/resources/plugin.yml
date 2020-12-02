@@ -1,8 +1,8 @@
-name: WHIMCPortals
-author: Jack Henhapl
-main: edu.whimc.portals.Main
+name: ${project.artifactId}
 version: ${project.version}
+author: Jack Henhapl
 api-version: 1.13
+main: edu.whimc.portals.Main
 description: Create portals for player teleportation
 load: POSTWORLD
 softdepend: [Multiverse-Core]
