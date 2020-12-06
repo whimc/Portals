@@ -33,7 +33,7 @@ public class PortalRefill extends AbstractSubCommand {
         }
 
         portal.addFiller();
-        Messenger.msg(sender, ReplaceMessage.PORTAL_REFILLED, portal.getName());
+        Messenger.msg(sender, ReplaceMessage.PORTAL_REFILLED, portal.getName(), portal.getFiller().toString());
         return true;
     }
 

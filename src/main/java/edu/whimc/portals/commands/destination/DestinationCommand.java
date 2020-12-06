@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.permissions.Permission;
 
 import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
@@ -21,6 +23,10 @@ public class DestinationCommand implements CommandExecutor,TabCompleter {
     private Map<String, AbstractSubCommand> subCommands = new HashMap<>();
 
     public DestinationCommand(Main plugin) {
+        Permission perm = new Permission(Main.PERM_PREFIX + ".destination.*");
+        perm.addParent(Main.PERM_PREFIX + ".*", true);
+        Bukkit.getPluginManager().addPermission(perm);
+
         subCommands.put("change", new DestinationChange(plugin, "destination", "change"));
         subCommands.put("clear", new DestinationClear(plugin, "destination", "clear"));
         subCommands.put("create", new DestinationCreate(plugin, "destination", "create"));

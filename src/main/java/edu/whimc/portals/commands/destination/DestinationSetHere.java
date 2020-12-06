@@ -41,9 +41,7 @@ public class DestinationSetHere extends AbstractSubCommand {
 
 
         portal.setDestination(dest);
-        Messenger.msg(sender, Messenger.prefix + "&aThe destination of '&2" + portal.getName() + "&a' " +
-                "has been set to your current location!");
-        Messenger.msg(sender, "  &7(Destination named &8'&7&o" + portal.getName() + "&8'&7)");
+        Messenger.msg(sender, ReplaceMessage.DESTINATION_SETHERE, portal.getName(), portal.getName());
         return true;
     }
 

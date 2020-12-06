@@ -26,12 +26,7 @@ public class PortalRemove extends AbstractSubCommand {
             return true;
         }
 
-        portal.setDestination(null);
         portal.remove();
-        plugin.getPortalData().removeKey("Portals." + portal.getName());
-        plugin.getPortalData().saveConfig();
-        plugin.getPortalData().reloadConfig();
-
         Messenger.msg(sender, ReplaceMessage.PORTAL_REMOVE_SUCCESS, portal.getName());
         return true;
     }
