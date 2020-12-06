@@ -9,9 +9,9 @@ import org.bukkit.util.Vector;
 
 import edu.whimc.portals.commands.destination.DestinationCommand;
 import edu.whimc.portals.commands.portal.PortalCommand;
+import edu.whimc.portals.listeners.PortalBlockChangeListener;
 import edu.whimc.portals.listeners.PortalEnterListener;
 import edu.whimc.portals.listeners.ToolSelectListener;
-import edu.whimc.portals.listeners.PortalBlockChangeListener;
 import edu.whimc.portals.utils.LocationSaver;
 import edu.whimc.portals.utils.MyConfig;
 import edu.whimc.portals.utils.MyConfigManager;
@@ -51,7 +51,7 @@ public class Main extends JavaPlugin {
 
         DestinationCommand dc = new DestinationCommand(this);
         getCommand("destination").setExecutor(dc);
-        //        getCommand("destination").setTabCompleter(dc);
+        getCommand("destination").setTabCompleter(dc);
     }
 
     private void initializeConfig() {

@@ -90,7 +90,6 @@ public class Messenger {
     public enum Message {
         NO_PERMISSION(prefix + ChatColor.RED + "You cannot use this command!"),
         MUST_BE_PLAYER(prefix + ChatColor.RED + "You must be a player to use this command!"),
-        //        INVALID_USAGE(prefix + ChatColor.RED + "Invalid usage!"),
         PORTAL_NO_DESTINATION(prefix + ChatColor.DARK_GRAY + "This portal has no destination!"),
         PORTAL_DESTINATION_INVALID(prefix + ChatColor.DARK_GRAY + "This portal's destination is in an invalid world!"),
         PORTAL_TOOL_GIVEN(prefix + ChatColor.GREEN + "The portal tool has been added to your inventory!"),
@@ -104,9 +103,9 @@ public class Messenger {
         DEBUG_DISABLE(prefix + "&7Debug mode has been &cdisabled&7!"),
 
         LINE_PORTAL_LIST("&m                      &r &b&lPortals&r &m                      &r"),
-        LINE_DESTINATION_LIST("&m                   &r &b&lDestinations&r &m                    &r"),
+        LINE_DESTINATION_LIST("&m                  &r &b&lDestinations&r &m                   &r"),
         LINE_COMMAND_LIST("&m                     &r &7[&b&lPortals&7]&r &m                     &r"),
-        LINE("&m                                                     &r");
+        LINE("&m                                                        &r");
 
         private String message;
 
