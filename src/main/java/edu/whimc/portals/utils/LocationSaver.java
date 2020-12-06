@@ -9,62 +9,68 @@ import edu.whimc.portals.Main;
 
 public class LocationSaver {
 
-	public static void saveLocation(Location loc, String path){
-		if(loc == null){
-			Main.portalData.removeKey(path);
-			Main.portalData.saveConfig();
-			Main.portalData.reloadConfig();
-			return;
-		}
-		String world;
-		double x,y,z;
-		float yaw,pitch;
-		world = loc.getWorld().getName();
-		x = loc.getX();
-		y = loc.getY();
-		z = loc.getZ();
-		yaw = loc.getYaw();
-		pitch = loc.getPitch();
-		Main.portalData.set(path + ".world", world);
-		Main.portalData.set(path + ".x", x);
-		Main.portalData.set(path + ".y", y);
-		Main.portalData.set(path + ".z", z);
-		Main.portalData.set(path + ".pitch", pitch);
-		Main.portalData.set(path + ".yaw", yaw);
-		Main.portalData.saveConfig();
-		Main.portalData.reloadConfig();
-	}
+    private MyConfig portalData;
 
-	public static void saveVector(Vector vector, String path){
-		int x,y,z;
-		x = vector.getBlockX();
-		y = vector.getBlockY();
-		z = vector.getBlockZ();
-		Main.portalData.set(path + ".x", x);
-		Main.portalData.set(path + ".y", y);
-		Main.portalData.set(path + ".z", z);
-		Main.portalData.saveConfig();
-		Main.portalData.reloadConfig();
-	}
+    public LocationSaver(Main plugin) {
+        this.portalData = plugin.getPortalData();
+    }
 
-	public static Location getLocation(String path){
-		String worldName;
-		double x,y,z;
-		float yaw,pitch;
-		try{
-			worldName = Main.portalData.getString(path + ".world");
-			x = Main.portalData.getDouble(path + ".x");
-			y = Main.portalData.getDouble(path + ".y");
-			z = Main.portalData.getDouble(path + ".z");
-			yaw = Main.portalData.getFloat(path + ".yaw");
-			pitch = Main.portalData.getFloat(path + ".pitch");
-		}catch(Exception e){
-			return null;
-		}
-		World world = Bukkit.getWorld(worldName);
-		if (world == null) {
-			Bukkit.getLogger().info("CAUTION - A location has been loaded with an invalid world!");
-		}
-		return new Location(world, x, y, z, yaw, pitch);
-	}
+    public void saveLocation(Location loc, String path){
+        if(loc == null){
+            portalData.removeKey(path);
+            portalData.saveConfig();
+            portalData.reloadConfig();
+            return;
+        }
+        String world;
+        double x,y,z;
+        float yaw,pitch;
+        world = loc.getWorld().getName();
+        x = loc.getX();
+        y = loc.getY();
+        z = loc.getZ();
+        yaw = loc.getYaw();
+        pitch = loc.getPitch();
+        portalData.set(path + ".world", world);
+        portalData.set(path + ".x", x);
+        portalData.set(path + ".y", y);
+        portalData.set(path + ".z", z);
+        portalData.set(path + ".pitch", pitch);
+        portalData.set(path + ".yaw", yaw);
+        portalData.saveConfig();
+        portalData.reloadConfig();
+    }
+
+    public void saveVector(Vector vector, String path){
+        int x,y,z;
+        x = vector.getBlockX();
+        y = vector.getBlockY();
+        z = vector.getBlockZ();
+        portalData.set(path + ".x", x);
+        portalData.set(path + ".y", y);
+        portalData.set(path + ".z", z);
+        portalData.saveConfig();
+        portalData.reloadConfig();
+    }
+
+    public Location getLocation(String path){
+        String worldName;
+        double x,y,z;
+        float yaw,pitch;
+        try{
+            worldName = portalData.getString(path + ".world");
+            x = portalData.getDouble(path + ".x");
+            y = portalData.getDouble(path + ".y");
+            z = portalData.getDouble(path + ".z");
+            yaw = portalData.getFloat(path + ".yaw");
+            pitch = portalData.getFloat(path + ".pitch");
+        }catch(Exception e){
+            return null;
+        }
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) {
+            Bukkit.getLogger().info("CAUTION - A location has been loaded with an invalid world!");
+        }
+        return new Location(world, x, y, z, yaw, pitch);
+    }
 }

@@ -13,7 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import edu.whimc.portals.utils.Messager;
+import edu.whimc.portals.utils.Messenger;
 
 public class ToolSelectListener implements Listener{
 
@@ -53,7 +53,7 @@ public class ToolSelectListener implements Listener{
 		int y = loc.getBlockY();
 		int z = loc.getBlockZ();
 
-		String message = Messager.prefix + "&aPosition ";
+		String message = Messenger.prefix + "&aPosition ";
 		if (action == Action.LEFT_CLICK_BLOCK) {
 			message += "1";
 		}
@@ -65,7 +65,7 @@ public class ToolSelectListener implements Listener{
 			message += " &7(" + getVolume(leftClicks.get(player.getUniqueId()), rightClicks.get(player.getUniqueId())) + ")";
 		}
 
-		Messager.msg(player, message);
+		Messenger.msg(player, message);
 	}
 
 	private boolean isSamePosition(Location loc1, Location loc2){

@@ -15,8 +15,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import edu.whimc.portals.Destination;
 import edu.whimc.portals.Portal;
-import edu.whimc.portals.utils.Messager;
-import edu.whimc.portals.utils.Messager.Message;
+import edu.whimc.portals.utils.Messenger;
+import edu.whimc.portals.utils.Messenger.Message;
 
 public class PortalEnterListener implements Listener{
 
@@ -46,20 +46,20 @@ public class PortalEnterListener implements Listener{
 		Player player = event.getPlayer();
 
 		if(!portal.hasDestination()){
-			Messager.msg(player, Message.PORTAL_NO_DESTINATION);
+			Messenger.msg(player, Message.PORTAL_NO_DESTINATION);
 			return;
 		}
 
 		Destination dest = portal.getDestination();
 
 		if (!dest.isValid()) {
-			Messager.msg(player, Message.PORTAL_DESTINATION_INVALID);
-			Messager.msg(player, ChatColor.GRAY + "  You may want to delete it with \"&o/destination remove " + dest.getName() + "\"");
+			Messenger.msg(player, Message.PORTAL_DESTINATION_INVALID);
+			Messenger.msg(player, ChatColor.GRAY + "  You may want to delete it with \"&o/destination remove " + dest.getName() + "\"");
 			return;
 		}
 
 		if (debugPlayers.contains(player.getUniqueId())) {
-			Messager.sendPortalInfo(player, portal);
+			Messenger.sendPortalInfo(player, portal);
 			return;
 		}
 
