@@ -7,83 +7,97 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
-import edu.whimc.portals.commands.DestinationCommand;
-import edu.whimc.portals.commands.PortalCommand;
+import edu.whimc.portals.commands.destination.DestinationCommand;
+import edu.whimc.portals.commands.portal.PortalCommand;
+import edu.whimc.portals.listeners.PortalBlockChangeListener;
 import edu.whimc.portals.listeners.PortalEnterListener;
 import edu.whimc.portals.listeners.ToolSelectListener;
-import edu.whimc.portals.listeners.WaterMoveListener;
 import edu.whimc.portals.utils.LocationSaver;
 import edu.whimc.portals.utils.MyConfig;
 import edu.whimc.portals.utils.MyConfigManager;
 
-public class Main extends JavaPlugin{
-	public MyConfigManager manager;
-	public static MyConfig portalData;
+public class Main extends JavaPlugin {
 
-	@Override
-	public void onEnable(){
-		manager = new MyConfigManager(this);
-		portalData = manager.getNewConfig("portalData.yml");
-		initializeConfig();
-		registerStuff();
-		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-	}
+    private MyConfigManager manager;
+    private static MyConfig portalData;
+    private LocationSaver locationSaver;
 
-	@Override
-	public void onDisable(){
-		ToolSelectListener.leftClicks.clear();
-		ToolSelectListener.rightClicks.clear();
-	}
+    @Override
+    public void onEnable() {
+        manager = new MyConfigManager(this);
+        portalData = manager.getNewConfig("portalData.yml");
+        locationSaver = new LocationSaver(this);
+        initializeConfig();
+        registerStuff();
+    }
 
-	private void registerStuff(){
-		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new PortalEnterListener(), this);
-		pm.registerEvents(new ToolSelectListener(), this);
-		pm.registerEvents(new WaterMoveListener(), this);
-		getCommand("portal").setExecutor(new PortalCommand());
-		getCommand("destination").setExecutor(new DestinationCommand());
-	}
+    public MyConfig getPortalData() {
+        return portalData;
+    }
 
-	private void initializeConfig(){
-		if (portalData.contains("Destinations")) {
-			String path, destWorldName;
-			Location destLoc;
-			for (String key : portalData.getConfigurationSection("Destinations").getKeys(false)) {
-				path = "Destinations." + key;
-				destLoc = LocationSaver.getLocation(path);
+    public LocationSaver getLocationSaver() {
+        return locationSaver;
+    }
 
-				path = "Destinations." + key + ".world";
-				destWorldName = portalData.getString(path);
+    private void registerStuff() {
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PortalEnterListener(), this);
+        pm.registerEvents(new ToolSelectListener(), this);
+        pm.registerEvents(new PortalBlockChangeListener(), this);
 
-				Destination.loadDestination(key, destLoc, destWorldName);
-			}
-		}
+        PortalCommand pc = new PortalCommand(this);
+        getCommand("portal").setExecutor(pc);
+        getCommand("portal").setTabCompleter(pc);
 
-		if(portalData.contains("Portals")){
-			String path, portalWorldName, fillerName;
-			Destination dest;
-			Vector pos1, pos2;
-			Material filler;
-			for(String key : portalData.getConfigurationSection("Portals").getKeys(false)){
+        DestinationCommand dc = new DestinationCommand(this);
+        getCommand("destination").setExecutor(dc);
+        getCommand("destination").setTabCompleter(dc);
+    }
 
-				path = "Portals." + key + ".pos1";
-				pos1 = new Vector(portalData.getInt(path+".x"), portalData.getInt(path+".y"), portalData.getInt(path+".z"));
+    private void initializeConfig() {
+        if (portalData.contains("Destinations")) {
+            String path, destWorldName;
+            Location destLoc;
+            for (String key : portalData.getConfigurationSection("Destinations").getKeys(false)) {
+                path = "Destinations." + key;
+                destLoc = locationSaver.getLocation(path);
 
-				path = "Portals." + key + ".pos2";
-				pos2 = new Vector(portalData.getInt(path+".x"), portalData.getInt(path+".y"), portalData.getInt(path+".z"));
+                path = "Destinations." + key + ".world";
+                destWorldName = portalData.getString(path);
 
-				path = "Portals." + key + ".destination";
-				dest = Destination.getDestination(portalData.getString(path));
+                Destination.loadDestination(this, key, destLoc, destWorldName);
+            }
+        }
 
-				portalWorldName = portalData.getString("Portals." + key + ".world");
+        if (portalData.contains("Portals")) {
+            String path, portalWorldName, fillerName;
+            Destination dest;
+            Vector pos1, pos2;
+            Material filler;
+            for (String key : portalData.getConfigurationSection("Portals").getKeys(false)) {
 
-				fillerName = portalData.getString("Portals." + key + ".filler");
-				if (fillerName == null) filler = null;
-				else filler = Material.matchMaterial(fillerName);
+                path = "Portals." + key + ".pos1";
+                pos1 = new Vector(portalData.getInt(path + ".x"), portalData.getInt(path + ".y"),
+                        portalData.getInt(path + ".z"));
 
-				Portal.loadPortal(key, portalWorldName, pos1, pos2, dest, filler);
-			}
-		}
-	}
+                path = "Portals." + key + ".pos2";
+                pos2 = new Vector(portalData.getInt(path + ".x"), portalData.getInt(path + ".y"),
+                        portalData.getInt(path + ".z"));
+
+                path = "Portals." + key + ".destination";
+                dest = Destination.getDestination(portalData.getString(path));
+
+                portalWorldName = portalData.getString("Portals." + key + ".world");
+
+                fillerName = portalData.getString("Portals." + key + ".filler");
+                if (fillerName == null)
+                    filler = null;
+                else
+                    filler = Material.matchMaterial(fillerName);
+
+                Portal.loadPortal(this, key, portalWorldName, pos1, pos2, dest, filler);
+            }
+        }
+    }
 
 }
