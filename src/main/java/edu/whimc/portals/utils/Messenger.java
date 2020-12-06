@@ -11,13 +11,12 @@ import edu.whimc.portals.Portal;
 public class Messenger {
 
     public static final String prefix = "&7[&b&lPortals&7]&r ";
-    private static final String rep = "{$}";
 
     public static void msg(CommandSender sender, Message message) {
         sender.sendMessage(color(message.toString()));
     }
 
-    public static void msg(CommandSender sender, ReplaceMessage message, String replace) {
+    public static void msg(CommandSender sender, ReplaceMessage message, String... replace) {
         sender.sendMessage(color(message.toString(replace)));
     }
 
@@ -54,8 +53,10 @@ public class Messenger {
                 "  &by: &f&o" + portal.getPos2().getY(),
                 "  &bz: &f&o" + portal.getPos2().getZ());
         Destination dest = portal.getDestination();
-        msg(sender,
-                "&bDestination: " + (dest == null ? "&7None" : dest.toString()));
+        msg(sender, "&bDestination: " + (dest == null ? "&7None" : dest.toString()));
+        msg(sender, "&bFiller: &f&o" + portal.getFiller().toString());
+        String permission = portal.getPermission();
+        msg(sender, "&bPermission: &f&o" + (permission == null ? "&7None" : permission));
         msg(sender, Message.LINE);
     }
 
@@ -88,15 +89,16 @@ public class Messenger {
     }
 
     public enum Message {
-        NO_PERMISSION(prefix + ChatColor.RED + "You cannot use this command!"),
-        MUST_BE_PLAYER(prefix + ChatColor.RED + "You must be a player to use this command!"),
-        PORTAL_NO_DESTINATION(prefix + ChatColor.DARK_GRAY + "This portal has no destination!"),
-        PORTAL_DESTINATION_INVALID(prefix + ChatColor.DARK_GRAY + "This portal's destination is in an invalid world!"),
-        PORTAL_TOOL_GIVEN(prefix + ChatColor.GREEN + "The portal tool has been added to your inventory!"),
+        NO_PERMISSION(prefix + "&cYou cannot use this command!"),
+        MUST_BE_PLAYER(prefix + "&cYou must be a player to use this command!"),
+        PORTAL_NO_DESTINATION(prefix + "&8This portal has no destination!"),
+        PORTAL_NO_PERMISSION(prefix + "&cYou do not have permission to use this portal!"),
+        PORTAL_DESTINATION_INVALID(prefix + "&8This portal's destination is in an invalid world!"),
+        PORTAL_TOOL_GIVEN(prefix + "&aThe portal tool has been added to your inventory!"),
         NO_PORTALS(prefix + "&7There are currently no portals!&r\n  &7(Use &8\"&7&o/portal create&8\" &7to create one)"),
         NO_DESTINATIONS(prefix + "&7There are currently no destinations!&r\n  &7(Use &8\"&7&o/destination create&8\" &7to create one)"),
-        POS_BOTH_NOT_SELECTED(prefix + ChatColor.RED + "You have not selected both positions!"),
-        POS_IN_DIFF_WORLDS(prefix + ChatColor.RED + "Your selections are in different worlds!"),
+        POS_BOTH_NOT_SELECTED(prefix + "&cYou have not selected both positions!"),
+        POS_IN_DIFF_WORLDS(prefix + "&cYour selections are in different worlds!"),
         NONE_RESERVED_WORD(prefix + "&cSorry, '&4" + Destination.NONE + "&c' is a reserved name!"),
 
         DEBUG_ENABLE(prefix + "&7Debug mode has been &aenabled&7!"),
@@ -120,25 +122,31 @@ public class Messenger {
     }
 
     public enum ReplaceMessage {
-        PORTAL_DOES_NOT_EXIST(prefix + "&cThe portal '&4" + rep + "&c' does not exist!"),
-        PORTAL_ALREADY_EXISTS(prefix + "&cThe portal '&4" + rep + "&c' already exists!"),
-        PORTAL_CREATE_SUCCESS(prefix + "&aThe portal '&2" + rep + "&a' has been created!"),
-        PORTAL_REMOVE_SUCCESS(prefix + "&aThe portal '&2" + rep + "&a' has been removed!"),
-        PORTAL_INVALID(prefix + "&c'&4" + rep + "&c' is in a world that no longer exists!"),
-        PORTAL_REFILLED(prefix + "&aThe portal '&2" + rep + "&a' has been refilled!"),
-        PORTAL_DEST_CLEARED(prefix + "&aThe destination of '&2" + rep + "&a' has been removed!"),
+        PORTAL_DOES_NOT_EXIST(prefix + "&cThe portal '&4%s&c' does not exist!"),
+        PORTAL_ALREADY_EXISTS(prefix + "&cThe portal &4%s&c already exists!"),
+        PORTAL_CREATE_SUCCESS(prefix + "&aThe portal &2%s&a has been created!"),
+        PORTAL_REMOVE_SUCCESS(prefix + "&aThe portal &2%s&a has been removed!"),
+        PORTAL_INVALID(prefix + "&cThe portal &4%s&c is in a world that no longer exists!"),
+        PORTAL_REFILLED(prefix + "&2%s&a has been refilled with &2%s&a!"),
+        PORTAL_FILLER_SET(prefix + "&2%s&a has been filled with &2%s&a!"),
+        PORTAL_DEST_CLEARED(prefix + "&aThe destination of &2%s&a has been removed!"),
+        PORTAL_PERM_CLEARED(prefix + "&aThe permission of &2%s&a has been removed!"),
+        PORTAL_PERM_SET(prefix + "&aThe permission of &2%s&a has been set to '&2%s&a'!"),
 
-        DESTINATION_DOES_NOT_EXIST(prefix + "&cThe destination '&4" + rep + "&c' does not exist!"),
-        DESTINATION_ALREADY_EXISTS(prefix + "&cThe destination '&4" + rep + "&c' already exists!"),
-        DESTINATION_CREATE_SUCCESS(prefix + "&aThe destination '&2" + rep + "&a' has been created!"),
-        DESTINATION_CHANGE_SUCCESS(prefix + "&aThe destination '&2" + rep + "&a' has been set to your current location!"),
-        DESTINATION_REMOVE_SUCCESS(prefix + "&aThe destination '&2" + rep + "&a' has been removed!"),
-        DESTINATION_INVALID(prefix + "&c'&4" + rep + "&c' is in a world that no longer exists!"),
-        DESTINATION_TELEPORTED(prefix + "&aYou have been teleported to '&2" + rep + "&a'"),
+        DESTINATION_DOES_NOT_EXIST(prefix + "&cThe destination '&4%s&c' does not exist!"),
+        DESTINATION_ALREADY_EXISTS(prefix + "&cThe destination &4%s&c already exists!"),
+        DESTINATION_CREATE_SUCCESS(prefix + "&aThe destination &2%s&a has been created!"),
+        DESTINATION_CHANGE_SUCCESS(prefix + "&aThe destination &2%s&a has been set to your current location!"),
+        DESTINATION_REMOVE_SUCCESS(prefix + "&aThe destination &2%s&a has been removed!"),
+        DESTINATION_INVALID(prefix + "&cThe destination &4%s&c is in a world that no longer exists!"),
+        DESTINATION_TELEPORTED(prefix + "&aYou have been teleported to the destination &2%s&a"),
+        DESTINATION_SET(prefix + "&aThe destination of &2%s&a has been set to '&2%s&a'!"),
+        DESTINATION_SETHERE(prefix + "&aThe destination of '&2%s&a' has been set to your current location!\n" +
+                "  &7(Destination named &8'&7&o%s&8'&7)"),
 
-        INVALID_FILLER(prefix + "&c'&4" + rep + "&c' is an invalid filler type!&r\n  &7(Valid fillers: AIR, COBWEB, LAVA, WATER)"),
-        SUGGEST_DELETE("  (&7You may want to delete it with \"&o" + rep + "&7\")"),
-        MISSING_ARGUMENTS(prefix + ChatColor.RED + "Missing argument(s): " + rep);
+        INVALID_FILLER(prefix + "&c'&4%s&c' is an invalid filler type!&r\n  &7(Valid fillers: %s)"),
+        SUGGEST_DELETE("  (&7You may want to delete it with \"&o%s&7\")"),
+        MISSING_ARGUMENTS(prefix + "&cMissing argument(s): %s");
 
         private String message;
 
@@ -146,8 +154,8 @@ public class Messenger {
             this.message = message;
         }
 
-        public String toString(String replace) {
-            return this.message.replace(rep, replace);
+        public String toString(String... replace) {
+            return String.format(this.message, (Object[]) replace);
         }
     }
 }

@@ -14,6 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.util.Vector;
 
 public class Portal {
@@ -30,6 +32,7 @@ public class Portal {
     private Main plugin;
     private String name;
     private String worldName;
+    private String permission;
     private Vector pos1;
     private Vector pos2;
     private Destination destination;
@@ -37,18 +40,19 @@ public class Portal {
 
     private boolean valid = true;
 
-    public static Portal createPortal(Main plugin, String name, World world, Vector pos1, Vector pos2) {
-        return new Portal(plugin, name, world.getName(), pos1, pos2, null, defaultFiller, true);
+    public static Portal createPortal(Main plugin, String name, String permission, World world, Vector pos1, Vector pos2) {
+        return new Portal(plugin, name, permission, world.getName(), pos1, pos2, null, defaultFiller, true);
     }
 
-    public static Portal loadPortal(Main plugin, String name, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler) {
-        return new Portal(plugin, name, worldName, pos1, pos2, destination, filler, false);
+    public static Portal loadPortal(Main plugin, String name, String permission, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler) {
+        return new Portal(plugin, name, permission, worldName, pos1, pos2, destination, filler, false);
     }
 
-    private Portal(Main plugin, String name, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler, boolean isNew){
+    private Portal(Main plugin, String name, String permission, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler, boolean isNew){
         this.plugin = plugin;
         this.name = name;
         this.worldName = worldName;
+        setPermission(permission);
         this.pos1 = pos1;
         this.pos2 = pos2;
         this.destination = destination;
@@ -59,14 +63,14 @@ public class Portal {
         }
 
         if(isNew){
-            plugin.getPortalData().set("Portals." + name + ".world", worldName);
+            setConfig("world", worldName);
             plugin.getLocationSaver().saveVector(pos1, "Portals." + name + ".pos1");
             plugin.getLocationSaver().saveVector(pos2, "Portals." + name + ".pos2");
             if (this.filler != defaultFiller)
-                plugin.getPortalData().set("Portals." + name + ".filler", this.filler.toString());
-            plugin.getPortalData().set("Portals." + name + ".destination", destination == null ? Destination.NONE : name);
-            plugin.getPortalData().saveConfig();
-            plugin.getPortalData().reloadConfig();
+                setConfig("filler", this.filler.toString());
+            setConfig("permission", permission);
+            setConfig("destination", destination == null ? Destination.NONE : name);
+            saveConfig();
         }
         portals.add(this);
 
@@ -137,6 +141,10 @@ public class Portal {
         return portalData.getOrDefault(data, null);
     }
 
+    public Material getFiller() {
+        return this.filler;
+    }
+
     public void addFiller(){
         if (!this.valid) return;
 
@@ -177,8 +185,7 @@ public class Portal {
         portals.remove(this);
         while (portalData.values().remove(this));
         plugin.getPortalData().removeKey("Portals." + this.name);
-        plugin.getPortalData().saveConfig();
-        plugin.getPortalData().reloadConfig();
+        saveConfig();
     }
 
     public void setFiller(Material filler) {
@@ -186,9 +193,8 @@ public class Portal {
         this.filler = filler;
         this.addFiller();
 
-        plugin.getPortalData().set("Portals." + name + ".filler", this.filler.toString());
-        plugin.getPortalData().saveConfig();
-        plugin.getPortalData().reloadConfig();
+        setConfig("filler", this.filler.toString());
+        saveConfig();
     }
 
     public static void setDefaultFiller(Material filler) {
@@ -246,10 +252,37 @@ public class Portal {
     public void setDestination(Destination destination){
         this.destination = destination;
 
-        plugin.getPortalData().set("Portals." + name + ".destination",
-                destination == null ? Destination.NONE : destination.getName());
-        plugin.getPortalData().saveConfig();
-        plugin.getPortalData().reloadConfig();
+        setConfig("destination", destination == null ? Destination.NONE : destination.getName());
+        saveConfig();
+    }
+
+    public boolean playerHasPermission(Player player) {
+        return permission == null || player.hasPermission(permission);
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public static String formatPermission(String node) {
+        if (node == null) return null;
+        return Main.PERM_PREFIX + ".entry." + node;
+    }
+
+    public void setPermission(String permission) {
+        if (this.permission != null) {
+            Bukkit.getPluginManager().removePermission(this.permission);
+        }
+
+        setConfig("permission", permission);
+        saveConfig();
+
+        this.permission = formatPermission(permission);
+        if (this.permission != null) {
+            Permission perm = new Permission(this.permission);
+            perm.addParent(Main.PERM_PREFIX + ".entry.*", true);
+            Bukkit.getPluginManager().addPermission(perm);
+        }
     }
 
     private int getMinX(){
@@ -292,6 +325,15 @@ public class Portal {
         if(y < getMinY() || y > getMaxY()) return false;
         if(z < getMinZ() || z > getMaxZ()) return false;
         return true;
+    }
+
+    private void setConfig(String key, Object value) {
+        plugin.getPortalData().set("Portals." + this.name + "." + key, value);
+    }
+
+    private void saveConfig() {
+        plugin.getPortalData().saveConfig();
+        plugin.getPortalData().reloadConfig();
     }
 
     @Override

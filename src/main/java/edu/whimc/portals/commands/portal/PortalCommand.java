@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.permissions.Permission;
 
 import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
@@ -21,10 +23,15 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
     private Map<String, AbstractSubCommand> subCommands = new HashMap<>();
 
     public PortalCommand(Main plugin) {
+        Permission perm = new Permission(Main.PERM_PREFIX + ".portal.*");
+        perm.addParent(Main.PERM_PREFIX + ".*", true);
+        Bukkit.getPluginManager().addPermission(perm);
+
         subCommands.put("create", new PortalCreate(plugin, "portal", "create"));
         subCommands.put("debug", new PortalDebug(plugin, "portal", "debug"));
         subCommands.put("info", new PortalInfo(plugin, "portal", "info"));
         subCommands.put("list", new PortalList(plugin, "portal", "list"));
+        subCommands.put("permission", new PortalPermission(plugin, "portal", "permission"));
         subCommands.put("refill", new PortalRefill(plugin, "portal", "refill"));
         subCommands.put("remove", new PortalRemove(plugin, "portal", "remove"));
         subCommands.put("setfiller", new PortalSetFiller(plugin, "portal", "setfiller"));

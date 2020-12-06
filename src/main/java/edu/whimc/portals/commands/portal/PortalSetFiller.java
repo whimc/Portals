@@ -36,14 +36,17 @@ public class PortalSetFiller extends AbstractSubCommand {
 
         Material mat = Material.matchMaterial(args[1]);
         if (mat == null || !Portal.isValidFiller(mat)) {
-            Messenger.msg(sender, ReplaceMessage.INVALID_FILLER, args[1]);
+            String validFillers = String.join(", ", Portal.getValidFillers()
+                    .stream()
+                    .map(Material::toString)
+                    .sorted()
+                    .collect(Collectors.toList()));
+            Messenger.msg(sender, ReplaceMessage.INVALID_FILLER, args[1], validFillers);
             return true;
         }
 
         portal.setFiller(mat);
-
-        Messenger.msg(sender, Messenger.prefix + "&aThe filler of '&2" + portal.getName() + "&a' " +
-                "has been set to '&2" + mat.toString() + "&a'!");
+        Messenger.msg(sender, ReplaceMessage.PORTAL_FILLER_SET, portal.getName(), mat.toString());
         return true;
     }
 

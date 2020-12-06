@@ -34,17 +34,16 @@ public class DestinationSet extends AbstractSubCommand {
         }
 
         portal.setDestination(dest);
-        Messenger.msg(sender, Messenger.prefix + "&aThe destination of '&2" + portal.getName() + "&a' " +
-                "has been set to '&2" + dest.getName() + "&a'!");
+        Messenger.msg(sender, ReplaceMessage.DESTINATION_SET, portal.getName(), dest.getName());
         return true;
     }
 
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            return Portal.getTabCompletedPortals(args[1]);
+            return Destination.getTabCompletedDestinations(args[1]);
         }
-        return Destination.getTabCompletedDestinations(args[0]);
+        return Portal.getTabCompletedPortals(args[0]);
     }
 
 }

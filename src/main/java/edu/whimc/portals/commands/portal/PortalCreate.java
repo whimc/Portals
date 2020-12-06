@@ -16,7 +16,7 @@ public class PortalCreate extends AbstractSubCommand {
 
     public PortalCreate(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Creates a portal using the selected location");
+        super.description("Creates a permissionless portal using the selected location");
         super.arguments("name");
         super.requiresPlayer();
     }
@@ -44,7 +44,7 @@ public class PortalCreate extends AbstractSubCommand {
             return false;
         }
 
-        Portal.createPortal(plugin, name, player.getWorld(), pos1.toVector(), pos2.toVector());
+        Portal.createPortal(plugin, name, null, player.getWorld(), pos1.toVector(), pos2.toVector());
         Messenger.msg(sender, ReplaceMessage.PORTAL_CREATE_SUCCESS, name);
 
         return true;
