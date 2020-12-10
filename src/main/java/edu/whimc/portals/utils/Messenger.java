@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
 
 import edu.whimc.portals.Destination;
 import edu.whimc.portals.Portal;
@@ -55,8 +56,8 @@ public class Messenger {
         Destination dest = portal.getDestination();
         msg(sender, "&bDestination: " + (dest == null ? "&7None" : dest.toString()));
         msg(sender, "&bFiller: &f&o" + portal.getFiller().toString());
-        String permission = portal.getPermission();
-        msg(sender, "&bPermission: &f&o" + (permission == null ? "&7None" : permission));
+        Permission permission = portal.getPermission();
+        msg(sender, "&bPermission: &f&o" + (permission == null ? "&7None" : permission.getName()));
         msg(sender, Message.LINE);
     }
 

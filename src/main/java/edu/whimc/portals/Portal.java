@@ -32,7 +32,7 @@ public class Portal {
     private Main plugin;
     private String name;
     private String worldName;
-    private String permission;
+    private Permission permission;
     private Vector pos1;
     private Vector pos2;
     private Destination destination;
@@ -257,11 +257,11 @@ public class Portal {
     }
 
     public boolean playerHasPermission(Player player) {
-        return permission == null || player.hasPermission(permission);
+        return this.permission == null || player.hasPermission(this.permission);
     }
 
-    public String getPermission() {
-        return permission;
+    public Permission getPermission() {
+        return this.permission;
     }
 
     public static String formatPermission(String node) {
@@ -269,19 +269,20 @@ public class Portal {
         return Main.PERM_PREFIX + ".entry." + node;
     }
 
-    public void setPermission(String permission) {
+    public void setPermission(String permStr) {
         if (this.permission != null) {
             Bukkit.getPluginManager().removePermission(this.permission);
         }
 
-        setConfig("permission", permission);
+        setConfig("permission", permStr);
         saveConfig();
 
-        this.permission = formatPermission(permission);
-        if (this.permission != null) {
-            Permission perm = new Permission(this.permission);
+        String formattedPerm = formatPermission(permStr);
+        if (formattedPerm != null) {
+            Permission perm = new Permission(formattedPerm);
             perm.addParent(Main.PERM_PREFIX + ".entry.*", true);
             Bukkit.getPluginManager().addPermission(perm);
+            this.permission = perm;
         }
     }
 
