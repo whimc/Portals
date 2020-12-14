@@ -130,7 +130,11 @@ public class Portal {
     }
 
     public static Portal getPortal(Location loc) {
-        Block block = loc.getBlock();
+        return getPortal(loc.getBlock());
+    }
+
+    public static Portal getPortal(Block block) {
+        if (block == null) return null;
         String data = getBlockDataString(block);
         return portalData.getOrDefault(data, null);
     }
