@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.EndGateway;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.util.Vector;
@@ -24,12 +25,13 @@ public class Portal {
 
     private static List<Portal> portals = new ArrayList<>();
     private static Map<String, Portal> portalData = new HashMap<>();
-    private static Material defaultFiller = Material.WATER;
+    private static Material defaultFiller = Material.END_GATEWAY;
     private static final Set<Material> validFillers = new HashSet<>(Arrays.asList(
             Material.AIR,
             Material.WATER,
             Material.LAVA,
-            Material.COBWEB));
+            Material.COBWEB,
+            Material.END_GATEWAY));
 
     private Main plugin;
     private String name;
@@ -170,7 +172,14 @@ public class Portal {
     }
 
     private void setFiller(Block block) {
-        if (block.isEmpty()) block.setType(this.filler);
+        if (block.isEmpty()) {
+            block.setType(this.filler);
+            if (block.getType() == Material.END_GATEWAY) {
+                EndGateway gw = (EndGateway) block.getState();
+                gw.setAge(Long.MAX_VALUE);
+                gw.update(true, false);
+            }
+        }
     }
 
     public void removeFiller() {
