@@ -133,6 +133,27 @@ public class Portal {
         return portalData.getOrDefault(data, null);
     }
 
+    public void reshape(World newWorld, Vector newPos1, Vector newPos2) {
+        removeFiller();
+        portalData.values().removeIf(v -> v == this);
+
+        this.worldName = newWorld.getName();
+        this.pos1 = newPos1;
+        this.pos2 = newPos2;
+        this.valid = true;
+
+        portalForEach(block -> {
+            setFiller(block);
+            portalData.put(getBlockDataString(block), this);
+            return true;
+        });
+
+        setConfig("world", this.worldName);
+        plugin.getLocationSaver().saveVector(newPos1, "Portals." + name + ".pos1");
+        plugin.getLocationSaver().saveVector(newPos2, "Portals." + name + ".pos2");
+        saveConfig();
+    }
+
     public Material getFiller() {
         return this.filler;
     }
@@ -141,9 +162,13 @@ public class Portal {
         if (!this.valid) return;
 
         portalForEach(block -> {
-            if(block.getType() == Material.AIR) block.setType(this.filler);
+            setFiller(block);
             return true;
         });
+    }
+
+    private void setFiller(Block block) {
+        if (block.isEmpty()) block.setType(this.filler);
     }
 
     public void removeFiller() {
