@@ -11,6 +11,7 @@ import org.bukkit.util.Vector;
 import edu.whimc.portals.commands.destination.DestinationCommand;
 import edu.whimc.portals.commands.portal.PortalCommand;
 import edu.whimc.portals.listeners.PortalBlockChangeListener;
+import edu.whimc.portals.listeners.PortalDamageListener;
 import edu.whimc.portals.listeners.PortalEnterListener;
 import edu.whimc.portals.listeners.ToolSelectListener;
 import edu.whimc.portals.utils.LocationSaver;
@@ -55,6 +56,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PortalEnterListener(), this);
         pm.registerEvents(new ToolSelectListener(), this);
         pm.registerEvents(new PortalBlockChangeListener(), this);
+        pm.registerEvents(new PortalDamageListener(), this);
 
         PortalCommand pc = new PortalCommand(this);
         getCommand("portal").setExecutor(pc);
