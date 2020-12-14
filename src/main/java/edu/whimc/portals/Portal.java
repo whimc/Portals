@@ -134,7 +134,9 @@ public class Portal {
     }
 
     public void reshape(World newWorld, Vector newPos1, Vector newPos2) {
-        removeFiller();
+        if (this.valid) {
+            removeFiller();
+        }
         portalData.values().removeIf(v -> v == this);
 
         this.worldName = newWorld.getName();

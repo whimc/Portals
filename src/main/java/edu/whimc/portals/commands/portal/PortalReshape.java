@@ -31,12 +31,6 @@ public class PortalReshape extends AbstractSubCommand {
             return true;
         }
 
-        if (!portal.isValid()) {
-            Messenger.msg(sender, ReplaceMessage.PORTAL_INVALID, portal.getName());
-            Messenger.msg(sender, ReplaceMessage.SUGGEST_DELETE, "/portal remove " + portal.getName());
-            return true;
-        }
-
         Player player = (Player) sender;
         Location pos1 = ToolSelectListener.leftClicks.get(player.getUniqueId());
         Location pos2 = ToolSelectListener.rightClicks.get(player.getUniqueId());
