@@ -35,6 +35,7 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
         subCommands.put("refill", new PortalRefill(plugin, "portal", "refill"));
         subCommands.put("remove", new PortalRemove(plugin, "portal", "remove"));
         subCommands.put("setfiller", new PortalSetFiller(plugin, "portal", "setfiller"));
+        subCommands.put("teleport", new PortalTeleport(plugin, "portal", "teleport"));
         subCommands.put("tool", new PortalTool(plugin, "portal", "tool"));
     }
 
