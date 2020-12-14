@@ -129,6 +129,7 @@ public class Messenger {
         PORTAL_REMOVE_SUCCESS(prefix + "&aThe portal &2%s&a has been removed!"),
         PORTAL_INVALID(prefix + "&cThe portal &4%s&c is in a world that no longer exists!"),
         PORTAL_REFILLED(prefix + "&2%s&a has been refilled with &2%s&a!"),
+        PORTAL_RESHAPED(prefix + "&2%s&a has been reshaped to your current selection!"),
         PORTAL_FILLER_SET(prefix + "&2%s&a has been filled with &2%s&a!"),
         PORTAL_DEST_CLEARED(prefix + "&aThe destination of &2%s&a has been removed!"),
         PORTAL_PERM_CLEARED(prefix + "&aThe permission of &2%s&a has been removed!"),

@@ -48,11 +48,11 @@ public abstract class AbstractSubCommand {
     protected void arguments(String args) { this.arguments = args.split(" "); }
     protected void requiresPlayer() { this.requiresPlayer = true; }
 
-    protected List<String> onTabComplete(CommandSender sender, String[] args) { return null; }
+    protected List<String> onTabComplete(CommandSender sender, String[] args) { return Arrays.asList(); }
 
     public List<String> executeOnTabComplete(CommandSender sender, String args[]) {
         if (!sender.hasPermission(getPermission()) || args.length > arguments.length) {
-            return null;
+            return Arrays.asList();
         }
         return onTabComplete(sender, args);
     }
