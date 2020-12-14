@@ -84,6 +84,10 @@ public abstract class AbstractSubCommand {
         return this.permission;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
     protected abstract boolean onCommand(CommandSender sender, String[] args);
 
     public boolean executeSubCommand(CommandSender sender, String[] args) {
@@ -104,7 +108,7 @@ public abstract class AbstractSubCommand {
             }
             String missingArgs = String.join("&7, ", missingArgsList);
 
-            Messenger.usage(sender, missingArgs, description, getUsage());
+            Messenger.usageMissingArgs(sender, missingArgs, description, getUsage());
             return true;
         }
 

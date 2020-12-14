@@ -32,6 +32,7 @@ public class DestinationCommand implements CommandExecutor,TabCompleter {
         subCommands.put("create", new DestinationCreate(plugin, "destination", "create"));
         subCommands.put("info", new DestinationInfo(plugin, "destination", "info"));
         subCommands.put("list", new DestinationList(plugin, "destination", "list"));
+        subCommands.put("purge", new DestinationPurge(plugin, "destination", "purge"));
         subCommands.put("remove", new DestinationRemove(plugin, "destination", "remove"));
         subCommands.put("set", new DestinationSet(plugin, "destination", "set"));
         subCommands.put("sethere", new DestinationSetHere(plugin, "destination", "sethere"));
