@@ -31,8 +31,13 @@ public class Messenger {
         }
     }
 
-    public static void usage(CommandSender sender, String missingArgs, String description, String usage) {
+    public static void usageMissingArgs(CommandSender sender, String missingArgs, String description, String usage) {
         msg(sender, ReplaceMessage.MISSING_ARGUMENTS, missingArgs);
+        msg(sender, "  " + usage);
+    }
+
+    public static void usageUnknownArg(CommandSender sender, String arg, String description, String usage) {
+        msg(sender, ReplaceMessage.UNKNOWN_ARGUMENT, arg);
         msg(sender, "  " + usage);
     }
 
@@ -136,6 +141,9 @@ public class Messenger {
         PORTAL_PERM_SET(prefix + "&aThe permission of &2%s&a has been set to '&2%s&a'!"),
         PORTAL_TELEPORT_FAILED(prefix + "&cCould not find a safe teleport spot for &4%s&c! You will have to manually teleport to it."),
         PORTAL_TELEPORTED(prefix + "&aYou have been teleported to &2%s&a and put in debug mode!"),
+        PORTAL_PURGED_INVALID(prefix + "&aPurged &2%s&a portal(s) in an invalid world!"),
+        PORTAL_PURGED_NO_DESTINATION(prefix + "&aPurged &2%s&a portal(s) with no destination!"),
+        PORTAL_PURGED_BOTH(prefix + "&aPurged &2%s&a portal(s)!"),
 
         DESTINATION_DOES_NOT_EXIST(prefix + "&cThe destination '&4%s&c' does not exist!"),
         DESTINATION_ALREADY_EXISTS(prefix + "&cThe destination &4%s&c already exists!"),
@@ -147,10 +155,14 @@ public class Messenger {
         DESTINATION_SET(prefix + "&aThe destination of &2%s&a has been set to '&2%s&a'!"),
         DESTINATION_SETHERE(prefix + "&aThe destination of '&2%s&a' has been set to your current location!\n" +
                 "  &7(Destination named &8'&7&o%s&8'&7)"),
+        DESTINATION_PURGED_INVALID(prefix + "&aPurged &2%s&a destination(s) in an invalid world!"),
+        DESTINATION_PURGED_NO_PORTALS(prefix + "&aPurged &2%s&a destination(s) with no portals!"),
+        DESTINATION_PURGED_BOTH(prefix + "&aPurged &2%s&a destination(s)!"),
 
         INVALID_FILLER(prefix + "&c'&4%s&c' is an invalid filler type!&r\n  &7(Valid fillers: %s)"),
         SUGGEST_DELETE("  (&7You may want to delete it with \"&o%s&7\")"),
-        MISSING_ARGUMENTS(prefix + "&cMissing argument(s): %s");
+        MISSING_ARGUMENTS(prefix + "&cMissing argument(s): %s"),
+        UNKNOWN_ARGUMENT(prefix + "&cUnknown argument: &4%s");
 
         private String message;
 
