@@ -133,6 +133,8 @@ public class Messenger {
         PORTAL_DEST_CLEARED(prefix + "&aThe destination of &2%s&a has been removed!"),
         PORTAL_PERM_CLEARED(prefix + "&aThe permission of &2%s&a has been removed!"),
         PORTAL_PERM_SET(prefix + "&aThe permission of &2%s&a has been set to '&2%s&a'!"),
+        PORTAL_TELEPORT_FAILED(prefix + "&cCould not find a safe teleport spot for &4%s&c! You will have to manually teleport to it."),
+        PORTAL_TELEPORTED(prefix + "&aYou have been teleported to &2%s&a and put in debug mode!"),
 
         DESTINATION_DOES_NOT_EXIST(prefix + "&cThe destination '&4%s&c' does not exist!"),
         DESTINATION_ALREADY_EXISTS(prefix + "&cThe destination &4%s&c already exists!"),
@@ -140,7 +142,7 @@ public class Messenger {
         DESTINATION_CHANGE_SUCCESS(prefix + "&aThe destination &2%s&a has been set to your current location!"),
         DESTINATION_REMOVE_SUCCESS(prefix + "&aThe destination &2%s&a has been removed!"),
         DESTINATION_INVALID(prefix + "&cThe destination &4%s&c is in a world that no longer exists!"),
-        DESTINATION_TELEPORTED(prefix + "&aYou have been teleported to the destination &2%s&a"),
+        DESTINATION_TELEPORTED(prefix + "&aYou have been teleported to the destination &2%s&a!"),
         DESTINATION_SET(prefix + "&aThe destination of &2%s&a has been set to '&2%s&a'!"),
         DESTINATION_SETHERE(prefix + "&aThe destination of '&2%s&a' has been set to your current location!\n" +
                 "  &7(Destination named &8'&7&o%s&8'&7)"),

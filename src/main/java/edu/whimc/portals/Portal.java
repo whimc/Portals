@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.util.Vector;
@@ -82,20 +84,10 @@ public class Portal {
             return;
         }
 
-        Vector max = Vector.getMaximum(pos1, pos2);
-        Vector min = Vector.getMinimum(pos1, pos2);
-        Block block;
-        String data;
-        for (int x = min.getBlockX(); x <= max.getBlockX();x++) {
-            for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
-                for (int z = min.getBlockZ(); z <= max.getBlockZ();z++) {
-                    block = world.getBlockAt(x,y,z);
-                    data = getBlockDataString(block);
-
-                    portalData.put(data, this);
-                }
-            }
-        }
+        portalForEach(block -> {
+            portalData.put(getBlockDataString(block), this);
+            return true;
+        });
 
         if (isNew) {
             addFiller();
@@ -148,33 +140,46 @@ public class Portal {
     public void addFiller(){
         if (!this.valid) return;
 
-        Vector max = Vector.getMaximum(pos1, pos2);
-        Vector min = Vector.getMinimum(pos1, pos2);
-        World world = Bukkit.getWorld(this.worldName);
-        Block block;
-        for (int x = min.getBlockX(); x <= max.getBlockX();x++) {
-            for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
-                for (int z = min.getBlockZ(); z <= max.getBlockZ();z++) {
-                    block = world.getBlockAt(x,y,z);
-                    if(block.getType() == Material.AIR) block.setType(this.filler);
-                }
-            }
-        }
+        portalForEach(block -> {
+            if(block.getType() == Material.AIR) block.setType(this.filler);
+            return true;
+        });
     }
 
     public void removeFiller() {
+        portalForEach(block -> {
+            if (isValidFiller(block.getType())) block.setType(Material.AIR);
+            return true;
+        });
+    }
+
+    public Location getSafeTeleportLocation() {
+        Block res = portalForEach(block -> {
+            Block above = block.getRelative(BlockFace.UP);
+            if ((block.isEmpty() || block.getType() == this.filler) &&
+                    (above.isEmpty() || above.getType() == this.filler)) {
+                return false;
+            }
+            return true;
+        });
+        return res == null ? null : res.getLocation().add(0.5, 0, 0.5);
+    }
+
+    private Block portalForEach(Function<Block, Boolean> task) {
         Vector max = Vector.getMaximum(pos1, pos2);
         Vector min = Vector.getMinimum(pos1, pos2);
         World world = Bukkit.getWorld(this.worldName);
-        Block block;
         for (int x = min.getBlockX(); x <= max.getBlockX();x++) {
             for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
                 for (int z = min.getBlockZ(); z <= max.getBlockZ();z++) {
-                    block = world.getBlockAt(x,y,z);
-                    if(isValidFiller(block.getType())) block.setType(Material.AIR);
+                    Block block = world.getBlockAt(x, y, z);
+                    if (!task.apply(block)) {
+                        return block;
+                    }
                 }
             }
         }
+        return null;
     }
 
     public void remove(){
