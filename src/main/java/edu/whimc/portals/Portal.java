@@ -328,6 +328,8 @@ public class Portal {
             perm.addParent(Main.PERM_PREFIX + ".entry.*", true);
             Bukkit.getPluginManager().addPermission(perm);
             this.permission = perm;
+        } else {
+            this.permission = null;
         }
     }
 
