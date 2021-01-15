@@ -89,6 +89,8 @@ public class Destination {
 
     public void setLocation(Location location) {
         this.location = location;
+        this.worldName = location.getWorld().getName();
+        this.isValid = true;
         plugin.getLocationSaver().saveLocation(location, "Destinations." + name);
     }
 
