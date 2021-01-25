@@ -1,6 +1,5 @@
 package edu.whimc.portals.commands.portal;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -44,10 +43,11 @@ public class PortalPermission extends AbstractSubCommand {
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 2) {
+            List<String> res = Portal.getTabCompletedPermissions(args[1]);
             if (PERMISSION_NONE.startsWith(args[1].toLowerCase())) {
-                return Arrays.asList(PERMISSION_NONE);
+                res.add(PERMISSION_NONE);
             }
-            return null;
+            return res;
         }
 
         return Portal.getTabCompletedPortals(args[0]);
