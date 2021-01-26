@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -88,7 +90,6 @@ public class Portal {
 
         portalForEach(block -> {
             portalData.put(getBlockDataString(block), this);
-            return true;
         });
 
         if (isNew) {
@@ -105,7 +106,17 @@ public class Portal {
                 .stream()
                 .map(Portal::getName)
                 .filter(v -> v.toLowerCase().startsWith(hint.toLowerCase()))
-                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> getTabCompletedPermissions(String hint) {
+        return Portal.getPortals()
+                .stream()
+                .map(Portal::getPermission)
+                .filter(v -> v != null)
+                .distinct()
+                .map(Portal::getRawPermission)
+                .filter(v -> v.toLowerCase().startsWith(hint.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -153,7 +164,6 @@ public class Portal {
         portalForEach(block -> {
             setFiller(block);
             portalData.put(getBlockDataString(block), this);
-            return true;
         });
 
         setConfig("world", this.worldName);
@@ -171,7 +181,6 @@ public class Portal {
 
         portalForEach(block -> {
             setFiller(block);
-            return true;
         });
     }
 
@@ -189,20 +198,23 @@ public class Portal {
     public void removeFiller() {
         portalForEach(block -> {
             if (isValidFiller(block.getType())) block.setType(Material.AIR);
-            return true;
         });
     }
 
     public Location getSafeTeleportLocation() {
         Block res = portalForEach(block -> {
             Block above = block.getRelative(BlockFace.UP);
-            if ((block.isEmpty() || block.getType() == this.filler) &&
-                    (above.isEmpty() || above.getType() == this.filler)) {
-                return false;
-            }
-            return true;
+            return (block.isEmpty() || block.getType() == this.filler) &&
+                    (above.isEmpty() || above.getType() == this.filler);
         });
         return res == null ? null : res.getLocation().add(0.5, 0, 0.5);
+    }
+
+    private void portalForEach(Consumer<Block> func) {
+        portalForEach(block -> {
+            func.accept(block);
+            return false;
+        });
     }
 
     private Block portalForEach(Function<Block, Boolean> task) {
@@ -213,7 +225,7 @@ public class Portal {
             for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
                 for (int z = min.getBlockZ(); z <= max.getBlockZ();z++) {
                     Block block = world.getBlockAt(x, y, z);
-                    if (!task.apply(block)) {
+                    if (task.apply(block)) {
                         return block;
                     }
                 }
@@ -227,8 +239,9 @@ public class Portal {
             removeFiller();
         }
 
+        removePermission();
         portals.remove(this);
-        while (portalData.values().remove(this));
+        portalData.values().removeIf(v -> v == this);
         plugin.getPortalData().removeKey("Portals." + this.name);
         saveConfig();
     }
@@ -314,23 +327,52 @@ public class Portal {
         return Main.PERM_PREFIX + ".entry." + node;
     }
 
+    public static String getRawPermission(Permission permission) {
+        String[] parts = permission.getName().split(Pattern.quote("."));
+        return parts[parts.length - 1];
+    }
+
+    private void removePermission() {
+        if (this.permission == null) {
+            return;
+        }
+
+        // Unregister the permission if this is the only portal using it
+        long count = portals.stream()
+                .map(Portal::getPermission)
+                .filter(v -> v != null)
+                .filter(v -> v.equals(this.permission))
+                .count();
+        if (count == 1) {
+            Bukkit.getPluginManager().removePermission(this.permission);
+        }
+    }
+
+    private Permission registerOrGetPermission(String formattedPerm) {
+        if (formattedPerm == null) {
+            return null;
+        }
+        Permission existing = Bukkit.getPluginManager().getPermission(formattedPerm);
+        if (existing != null) {
+            return existing;
+        }
+
+        Permission res = new Permission(formattedPerm);
+        res.addParent(Main.PERM_PREFIX + ".entry.*", true);
+        Bukkit.getPluginManager().addPermission(res);
+
+        return res;
+    }
+
     public void setPermission(String permStr) {
         if (this.permission != null) {
-            Bukkit.getPluginManager().removePermission(this.permission);
+            removePermission();
         }
 
         setConfig("permission", permStr);
         saveConfig();
 
-        String formattedPerm = formatPermission(permStr);
-        if (formattedPerm != null) {
-            Permission perm = new Permission(formattedPerm);
-            perm.addParent(Main.PERM_PREFIX + ".entry.*", true);
-            Bukkit.getPluginManager().addPermission(perm);
-            this.permission = perm;
-        } else {
-            this.permission = null;
-        }
+        this.permission = registerOrGetPermission(formatPermission(permStr));
     }
 
     private int getMinX(){
