@@ -10,18 +10,23 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class PortalPermission extends AbstractSubCommand {
+/**
+ * Allow a user to set the permission associated with accessing a {@link Portal}.
+ *
+ * @see PortalCommand
+ */
+public final class PortalPermission extends AbstractSubCommand {
 
     private static final String PERMISSION_NONE = "none";
 
     public PortalPermission(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Sets or removes portal permissions");
-        super.arguments("portal permission|'" + PERMISSION_NONE + "'");
+        super.setDescription("Sets or removes portal permissions");
+        super.provideArguments("portal permission|'" + PERMISSION_NONE + "'");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null){
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -41,7 +46,7 @@ public class PortalPermission extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 2) {
             List<String> res = Portal.getTabCompletedPermissions(args[1]);
             if (PERMISSION_NONE.startsWith(args[1].toLowerCase())) {

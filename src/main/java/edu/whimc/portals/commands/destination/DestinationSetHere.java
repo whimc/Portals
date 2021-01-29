@@ -12,17 +12,24 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class DestinationSetHere extends AbstractSubCommand {
+/**
+ * Allow a user to create a {@link Destination} and set it to
+ * a {@link Portal}. This is a simplification of using both
+ * {@link DestinationCreate} and {@link DestinationSet}.
+ *
+ * @see DestinationCommand
+ */
+public final class DestinationSetHere extends AbstractSubCommand {
 
     public DestinationSetHere(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Sets the destination of a portal to your current location using the name of the portal");
-        super.arguments("portal");
-        super.requiresPlayer();
+        super.setDescription("Sets the destination of a portal to your current location using the name of the portal");
+        super.provideArguments("portal");
+        super.setRequiresPlayer(true);
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null){
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -46,7 +53,7 @@ public class DestinationSetHere extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         return Portal.getTabCompletedPortals(args[0]);
     }
 

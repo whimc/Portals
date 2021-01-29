@@ -3,6 +3,7 @@ package edu.whimc.portals;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +22,7 @@ import edu.whimc.portals.utils.MyConfigManager;
 public class Main extends JavaPlugin {
 
     public static final String PERM_PREFIX = "whimc-portals";
+    public static final Material TOOL_MATERIAL = Material.WOODEN_SWORD;
 
     private MyConfigManager manager;
     private static MyConfig portalData;

@@ -10,17 +10,24 @@ import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class DestinationCreate extends AbstractSubCommand {
+/**
+ * Allows a user to create a {@link Destination} for
+ * the purpose of later linking a {@link edu.whimc.portals.Portal}
+ * to that {@link Destination}.
+ *
+ * @see DestinationCommand
+ */
+public final class DestinationCreate extends AbstractSubCommand {
 
     public DestinationCreate(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Creates a new destination at your current location");
-        super.arguments("name");
-        super.requiresPlayer();
+        super.setDescription("Creates a new destination at your current location");
+        super.provideArguments("name");
+        super.setRequiresPlayer(true);
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         if (args[0].equalsIgnoreCase(Destination.NONE)) {
             Messenger.msg(sender, Message.NONE_RESERVED_WORD);
             return true;

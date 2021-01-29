@@ -113,7 +113,9 @@ public class Messenger {
         LINE_PORTAL_LIST("&m                      &r &b&lPortals&r &m                      &r"),
         LINE_DESTINATION_LIST("&m                  &r &b&lDestinations&r &m                   &r"),
         LINE_COMMAND_LIST("&m                     &r &7[&b&lPortals&7]&r &m                     &r"),
-        LINE("&m                                                        &r");
+        LINE("&m                                                        &r"),
+
+        ERROR("&cAn error occurred.");
 
         private String message;
 

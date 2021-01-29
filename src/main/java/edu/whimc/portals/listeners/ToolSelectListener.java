@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import edu.whimc.portals.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,7 +30,7 @@ public class ToolSelectListener implements Listener{
 
 		Player player = event.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();
-		if(item == null || item.getType() != Material.WOODEN_SWORD) return;
+		if(item.getType() != Main.TOOL_MATERIAL) return;
 
 		UUID uuid = player.getUniqueId();
 		Location loc = event.getClickedBlock().getLocation();

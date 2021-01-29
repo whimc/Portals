@@ -1,8 +1,8 @@
 package edu.whimc.portals.commands.portal;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.command.CommandSender;
 
@@ -12,16 +12,21 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class PortalPurge extends AbstractSubCommand {
+/**
+ * Allow the user to delete all unnecessary {@link Portal}s.
+ *
+ * @see PortalCommand
+ */
+public final class PortalPurge extends AbstractSubCommand {
 
     public PortalPurge(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Purge unused portals");
-        super.arguments("'invalid'|'no-destination'|'both'");
+        super.setDescription("Purge unused portals");
+        super.provideArguments("'invalid'|'no-destination'|'both'");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         String action = args[0];
         List<Portal> targets;
         ReplaceMessage msg;
@@ -45,14 +50,14 @@ public class PortalPurge extends AbstractSubCommand {
             return true;
         }
 
-        targets.stream().forEachOrdered(Portal::remove);
+        targets.forEach(Portal::remove);
         Messenger.msg(sender, msg, Integer.toString(targets.size()));
         return true;
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
-        return Arrays.asList("invalid", "no-destination", "both").stream()
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
+        return Stream.of("invalid", "no-destination", "both")
                 .filter(v -> v.toLowerCase().startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
     }

@@ -9,16 +9,24 @@ import edu.whimc.portals.listeners.PortalEnterListener;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
-public class PortalDebug extends AbstractSubCommand {
+/**
+ * Allow a player to enable debug mode for portals, which
+ * will provide the player with useful information when they would
+ * normally teleport through the portal.
+ *
+ * @see edu.whimc.portals.Portal
+ * @see PortalCommand
+ */
+public final class PortalDebug extends AbstractSubCommand {
 
     public PortalDebug(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Gives information about the portal you're entering instead of teleporting");
-        super.requiresPlayer();
+        super.setDescription("Gives information about the portal you're entering instead of teleporting");
+        super.setRequiresPlayer(true);
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
         if (PortalEnterListener.playerIsDebug(player)) {

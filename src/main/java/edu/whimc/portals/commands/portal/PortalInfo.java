@@ -10,16 +10,21 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class PortalInfo extends AbstractSubCommand {
+/**
+ * Give a user information about a {@link Portal}
+ *
+ * @see PortalCommand
+ */
+public final class PortalInfo extends AbstractSubCommand {
 
     public PortalInfo(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Gives information about a portal");
-        super.arguments("portal");
+        super.setDescription("Gives information about a portal");
+        super.provideArguments("portal");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null){
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -31,7 +36,7 @@ public class PortalInfo extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         return Portal.getTabCompletedPortals(args[0]);
     }
 

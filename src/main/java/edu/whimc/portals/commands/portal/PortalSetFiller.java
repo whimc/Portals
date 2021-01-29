@@ -12,16 +12,22 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class PortalSetFiller extends AbstractSubCommand {
+/**
+ * Allow a user to set the type of substance within the {@link Portal}
+ * for visual effect.
+ *
+ * @see PortalCommand
+ */
+public final class PortalSetFiller extends AbstractSubCommand {
 
     public PortalSetFiller(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
-        super.description("Sets the filler of a portal");
-        super.arguments("portal block");
+        super.setDescription("Sets the filler of a portal");
+        super.provideArguments("portal block");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null) {
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -36,11 +42,11 @@ public class PortalSetFiller extends AbstractSubCommand {
 
         Material mat = Material.matchMaterial(args[1]);
         if (mat == null || !Portal.isValidFiller(mat)) {
-            String validFillers = String.join(", ", Portal.getValidFillers()
+            String validFillers = Portal.getValidFillers()
                     .stream()
                     .map(Material::toString)
                     .sorted()
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.joining(", "));
             Messenger.msg(sender, ReplaceMessage.INVALID_FILLER, args[1], validFillers);
             return true;
         }
@@ -51,7 +57,7 @@ public class PortalSetFiller extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 2) {
             return Portal.getValidFillers()
                     .stream()
