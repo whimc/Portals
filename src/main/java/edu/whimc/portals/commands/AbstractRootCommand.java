@@ -30,7 +30,7 @@ public abstract class AbstractRootCommand implements CommandExecutor, TabComplet
      * @param subCommand a sub command
      */
     protected final void addSubCommand(final AbstractSubCommand subCommand) {
-        this.subCommands.put(subCommand.getCommand(), subCommand);
+        this.subCommands.put(subCommand.getSubCommand(), subCommand);
     }
 
     /**

@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
@@ -19,8 +18,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class DestinationChange extends AbstractSubCommand {
 
-    public DestinationChange(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public DestinationChange(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Sets the location of a destination to your current position");
         super.provideArguments("destination");
         super.setRequiresPlayer(true);

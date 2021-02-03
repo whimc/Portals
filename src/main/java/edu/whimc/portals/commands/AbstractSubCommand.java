@@ -30,7 +30,6 @@ public abstract class AbstractSubCommand {
     private static final String SEPARATOR = "&8";
     private static final String TEXT = "&f";
 
-    protected Main plugin;
     private String baseCommand;
     private String subCommand;
     private String permission;
@@ -39,8 +38,7 @@ public abstract class AbstractSubCommand {
     private String[] arguments = {};
     private boolean requiresPlayer = false;
 
-    public AbstractSubCommand(Main plugin, String baseCommand, String subCommand) {
-        this.plugin = plugin;
+    public AbstractSubCommand(String baseCommand, String subCommand) {
         this.baseCommand = baseCommand;
         this.subCommand = subCommand;
 

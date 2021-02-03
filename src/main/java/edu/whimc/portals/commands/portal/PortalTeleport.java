@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.listeners.PortalEnterListener;
@@ -21,8 +20,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class PortalTeleport extends AbstractSubCommand {
 
-    public PortalTeleport(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalTeleport(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Teleports you to a portal");
         super.provideArguments("portal");
         super.setRequiresPlayer(true);

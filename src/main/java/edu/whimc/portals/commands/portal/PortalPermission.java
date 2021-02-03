@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
@@ -19,8 +18,8 @@ public final class PortalPermission extends AbstractSubCommand {
 
     private static final String PERMISSION_NONE = "none";
 
-    public PortalPermission(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalPermission(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Sets or removes portal permissions");
         super.provideArguments("portal permission|'" + PERMISSION_NONE + "'");
     }

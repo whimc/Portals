@@ -3,7 +3,6 @@ package edu.whimc.portals.commands.portal;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
@@ -16,8 +15,8 @@ import edu.whimc.portals.utils.Messenger.Message;
  */
 public final class PortalList extends AbstractSubCommand {
 
-    public PortalList(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalList(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Lists all portals");
     }
 

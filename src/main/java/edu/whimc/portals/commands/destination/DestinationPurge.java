@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import org.bukkit.command.CommandSender;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
@@ -20,8 +19,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class DestinationPurge extends AbstractSubCommand {
 
-    public DestinationPurge(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public DestinationPurge(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Purge unused destinations");
         super.provideArguments("'invalid'|'no-portals'|'both'");
     }

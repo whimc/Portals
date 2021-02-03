@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
@@ -21,8 +20,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class DestinationSetHere extends AbstractSubCommand {
 
-    public DestinationSetHere(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public DestinationSetHere(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Sets the destination of a portal to your current location using the name of the portal");
         super.provideArguments("portal");
         super.setRequiresPlayer(true);
@@ -41,7 +40,7 @@ public final class DestinationSetHere extends AbstractSubCommand {
         Destination dest = Destination.getDestination(destName);
 
         if (dest == null) {
-            dest = Destination.createDestination(plugin, destName, player.getLocation());
+            dest = Destination.createDestination(destName, player.getLocation());
         } else {
             dest.setLocation(player.getLocation());
         }

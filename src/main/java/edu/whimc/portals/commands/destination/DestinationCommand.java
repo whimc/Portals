@@ -14,21 +14,21 @@ import edu.whimc.portals.Main;
  */
 public final class DestinationCommand extends AbstractRootCommand {
 
-    public DestinationCommand(Main plugin) {
+    public DestinationCommand() {
         Permission perm = new Permission(Main.PERM_PREFIX + ".destination.*");
         perm.addParent(Main.PERM_PREFIX + ".*", true);
         Bukkit.getPluginManager().addPermission(perm);
 
-        addSubCommand(new DestinationChange(plugin, "destination", "change"));
-        addSubCommand(new DestinationClear(plugin, "destination", "clear"));
-        addSubCommand(new DestinationCreate(plugin, "destination", "create"));
-        addSubCommand(new DestinationInfo(plugin, "destination", "info"));
-        addSubCommand(new DestinationList(plugin, "destination", "list"));
-        addSubCommand(new DestinationPurge(plugin, "destination", "purge"));
-        addSubCommand(new DestinationRemove(plugin, "destination", "remove"));
-        addSubCommand(new DestinationSet(plugin, "destination", "set"));
-        addSubCommand(new DestinationSetHere(plugin, "destination", "sethere"));
-        addSubCommand(new DestinationTeleport(plugin, "destination", "teleport"));
+        addSubCommand(new DestinationChange("destination", "change"));
+        addSubCommand(new DestinationClear("destination", "clear"));
+        addSubCommand(new DestinationCreate("destination", "create"));
+        addSubCommand(new DestinationInfo("destination", "info"));
+        addSubCommand(new DestinationList("destination", "list"));
+        addSubCommand(new DestinationPurge("destination", "purge"));
+        addSubCommand(new DestinationRemove("destination", "remove"));
+        addSubCommand(new DestinationSet("destination", "set"));
+        addSubCommand(new DestinationSetHere("destination", "sethere"));
+        addSubCommand(new DestinationTeleport("destination", "teleport"));
     }
 
 }

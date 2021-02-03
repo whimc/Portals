@@ -14,23 +14,23 @@ import edu.whimc.portals.Main;
  */
 public final class PortalCommand extends AbstractRootCommand {
 
-    public PortalCommand(Main plugin) {
+    public PortalCommand() {
         Permission perm = new Permission(Main.PERM_PREFIX + ".portal.*");
         perm.addParent(Main.PERM_PREFIX + ".*", true);
         Bukkit.getPluginManager().addPermission(perm);
 
-        addSubCommand(new PortalCreate(plugin, "portal", "create"));
-        addSubCommand(new PortalDebug(plugin, "portal", "debug"));
-        addSubCommand(new PortalInfo(plugin, "portal", "info"));
-        addSubCommand(new PortalList(plugin, "portal", "list"));
-        addSubCommand(new PortalPermission(plugin, "portal", "permission"));
-        addSubCommand(new PortalPurge(plugin, "portal", "purge"));
-        addSubCommand(new PortalRefill(plugin, "portal", "refill"));
-        addSubCommand(new PortalRemove(plugin, "portal", "remove"));
-        addSubCommand(new PortalReshape(plugin, "portal", "reshape"));
-        addSubCommand(new PortalSetFiller(plugin, "portal", "setfiller"));
-        addSubCommand(new PortalTeleport(plugin, "portal", "teleport"));
-        addSubCommand(new PortalTool(plugin, "portal", "tool"));
+        addSubCommand(new PortalCreate("portal", "create"));
+        addSubCommand(new PortalDebug("portal", "debug"));
+        addSubCommand(new PortalInfo("portal", "info"));
+        addSubCommand(new PortalList("portal", "list"));
+        addSubCommand(new PortalPermission("portal", "permission"));
+        addSubCommand(new PortalPurge("portal", "purge"));
+        addSubCommand(new PortalRefill("portal", "refill"));
+        addSubCommand(new PortalRemove("portal", "remove"));
+        addSubCommand(new PortalReshape("portal", "reshape"));
+        addSubCommand(new PortalSetFiller("portal", "setfiller"));
+        addSubCommand(new PortalTeleport("portal", "teleport"));
+        addSubCommand(new PortalTool("portal", "tool"));
     }
 
 }

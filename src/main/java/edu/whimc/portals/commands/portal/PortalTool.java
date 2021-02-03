@@ -22,8 +22,8 @@ public final class PortalTool extends AbstractSubCommand {
 
     private static final ItemStack TOOL = new ItemStack(Main.TOOL_MATERIAL);
 
-    protected PortalTool(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    protected PortalTool(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Gives you the portal selector tool");
         super.setRequiresPlayer(true);
 

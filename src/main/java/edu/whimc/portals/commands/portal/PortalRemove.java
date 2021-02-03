@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
@@ -17,8 +16,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class PortalRemove extends AbstractSubCommand {
 
-    public PortalRemove(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalRemove(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Removes a portal");
         super.provideArguments("portal");
     }

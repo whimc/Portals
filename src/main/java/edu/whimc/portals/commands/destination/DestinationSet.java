@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
@@ -18,8 +17,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class DestinationSet extends AbstractSubCommand {
 
-    public DestinationSet(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public DestinationSet(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Sets the destination of a portal");
         super.provideArguments("portal destination");
     }

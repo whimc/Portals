@@ -3,7 +3,7 @@ package edu.whimc.portals;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,13 +24,16 @@ public class Main extends JavaPlugin {
     public static final String PERM_PREFIX = "whimc-portals";
     public static final Material TOOL_MATERIAL = Material.WOODEN_SWORD;
 
-    private MyConfigManager manager;
     private static MyConfig portalData;
     private LocationSaver locationSaver;
 
+    public static Main getInstance() {
+        return Main.getPlugin(Main.class);
+    }
+
     @Override
     public void onEnable() {
-        manager = new MyConfigManager(this);
+        MyConfigManager manager = new MyConfigManager(this);
         portalData = manager.getNewConfig("portalData.yml");
         locationSaver = new LocationSaver(this);
 
@@ -60,13 +63,23 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PortalBlockChangeListener(), this);
         pm.registerEvents(new PortalDamageListener(), this);
 
-        PortalCommand pc = new PortalCommand(this);
-        getCommand("portal").setExecutor(pc);
-        getCommand("portal").setTabCompleter(pc);
+        PortalCommand pc = new PortalCommand();
+        PluginCommand ppc = getCommand("portal");
+        if (ppc == null) {
+            getLogger().severe("The portal command was not properly registered.");
+        } else {
+            ppc.setExecutor(pc);
+            ppc.setTabCompleter(pc);
+        }
 
-        DestinationCommand dc = new DestinationCommand(this);
-        getCommand("destination").setExecutor(dc);
-        getCommand("destination").setTabCompleter(dc);
+        DestinationCommand dc = new DestinationCommand();
+        PluginCommand dpc = getCommand("destination");
+        if (dpc == null) {
+            getLogger().severe("The destination command was not properly registered");
+        } else {
+            dpc.setExecutor(dc);
+            dpc.setTabCompleter(dc);
+        }
     }
 
     private void initializeConfig() {
@@ -80,7 +93,7 @@ public class Main extends JavaPlugin {
                 path = "Destinations." + key + ".world";
                 destWorldName = portalData.getString(path);
 
-                Destination.loadDestination(this, key, destLoc, destWorldName);
+                Destination.loadDestination(key, destLoc, destWorldName);
             }
         }
 
@@ -105,7 +118,7 @@ public class Main extends JavaPlugin {
                 String fillerName = portalData.getString("Portals." + key + ".filler", "");
                 Material filler = Material.matchMaterial(fillerName);
 
-                Portal.loadPortal(this, key, permission, portalWorldName, pos1, pos2, dest, filler);
+                Portal.loadPortal(key, permission, portalWorldName, pos1, pos2, dest, filler);
             }
         }
     }

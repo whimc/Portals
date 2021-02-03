@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
@@ -20,8 +19,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class PortalSetFiller extends AbstractSubCommand {
 
-    public PortalSetFiller(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalSetFiller(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Sets the filler of a portal");
         super.provideArguments("portal block");
     }

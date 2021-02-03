@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 
 import edu.whimc.portals.Main;
 
-public class LocationSaver {
+public final class LocationSaver {
 
     private MyConfig portalData;
 
@@ -15,16 +15,22 @@ public class LocationSaver {
         this.portalData = plugin.getPortalData();
     }
 
-    public void saveLocation(Location loc, String path){
-        if(loc == null){
+    public void saveLocation(Location loc, String path) {
+
+        if (loc == null) {
             portalData.removeKey(path);
             portalData.saveConfig();
             portalData.reloadConfig();
             return;
         }
+        if (loc.getWorld() == null) {
+            Main.getInstance().getLogger().severe("When saving a location, the world could not be found");
+            return;
+        }
+
         String world;
-        double x,y,z;
-        float yaw,pitch;
+        double x, y, z;
+        float yaw, pitch;
         world = loc.getWorld().getName();
         x = loc.getX();
         y = loc.getY();
@@ -41,8 +47,8 @@ public class LocationSaver {
         portalData.reloadConfig();
     }
 
-    public void saveVector(Vector vector, String path){
-        int x,y,z;
+    public void saveVector(Vector vector, String path) {
+        int x, y, z;
         x = vector.getBlockX();
         y = vector.getBlockY();
         z = vector.getBlockZ();
@@ -53,18 +59,18 @@ public class LocationSaver {
         portalData.reloadConfig();
     }
 
-    public Location getLocation(String path){
+    public Location getLocation(String path) {
         String worldName;
-        double x,y,z;
-        float yaw,pitch;
-        try{
+        double x, y, z;
+        float yaw, pitch;
+        try {
             worldName = portalData.getString(path + ".world");
             x = portalData.getDouble(path + ".x");
             y = portalData.getDouble(path + ".y");
             z = portalData.getDouble(path + ".z");
             yaw = portalData.getFloat(path + ".yaw");
             pitch = portalData.getFloat(path + ".pitch");
-        }catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
         World world = Bukkit.getWorld(worldName);

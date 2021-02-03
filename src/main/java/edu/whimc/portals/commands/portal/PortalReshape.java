@@ -2,11 +2,11 @@ package edu.whimc.portals.commands.portal;
 
 import java.util.List;
 
+import edu.whimc.portals.Main;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.listeners.ToolSelectListener;
@@ -23,8 +23,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class PortalReshape extends AbstractSubCommand {
 
-    public PortalReshape(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalReshape(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Reshape a portal to your current selection");
         super.provideArguments("portal");
         super.setRequiresPlayer(true);
@@ -45,6 +45,12 @@ public final class PortalReshape extends AbstractSubCommand {
         if (pos1 == null || pos2 == null){
             Messenger.msg(sender, Message.POS_BOTH_NOT_SELECTED);
             return true;
+        }
+
+        if (pos1.getWorld() == null || pos2.getWorld() == null) {
+            Main.getInstance().getLogger().severe("Portal selection positions do not have valid locations");
+            Messenger.msg(sender, Message.ERROR);
+            return false;
         }
 
         if (!pos1.getWorld().getName().equals(pos2.getWorld().getName())){

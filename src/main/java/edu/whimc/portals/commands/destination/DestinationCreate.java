@@ -4,7 +4,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
@@ -19,8 +18,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class DestinationCreate extends AbstractSubCommand {
 
-    public DestinationCreate(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public DestinationCreate(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Creates a new destination at your current location");
         super.provideArguments("name");
         super.setRequiresPlayer(true);
@@ -39,7 +38,7 @@ public final class DestinationCreate extends AbstractSubCommand {
             return true;
         }
 
-        Destination.createDestination(plugin, args[0], ((Player) sender).getLocation());
+        Destination.createDestination(args[0], ((Player) sender).getLocation());
         Messenger.msg(sender, ReplaceMessage.DESTINATION_CREATE_SUCCESS, args[0]);
         return true;
     }

@@ -9,7 +9,16 @@ import org.bukkit.permissions.Permission;
 import edu.whimc.portals.Destination;
 import edu.whimc.portals.Portal;
 
-public class Messenger {
+/**
+ * Utility class for all common messaging actions.
+ */
+public final class Messenger {
+
+    /**
+     * Private constructor to deter instantiation.
+     */
+    private Messenger() {
+    }
 
     public static final String prefix = "&7[&b&lPortals&7]&r ";
 
@@ -85,7 +94,7 @@ public class Messenger {
             String list = "";
             for (int ind = 0; ind < portals.size(); ind++) {
                 list += portals.get(ind).toString();
-                if (ind != portals.size() -1) {
+                if (ind != portals.size() - 1) {
                     list += "&8,&r ";
                 }
             }

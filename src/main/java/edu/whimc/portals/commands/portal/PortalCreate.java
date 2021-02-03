@@ -20,8 +20,8 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public final class PortalCreate extends AbstractSubCommand {
 
-    public PortalCreate(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
+    public PortalCreate(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
         super.setDescription("Creates a permission-less portal using the selected location");
         super.provideArguments("name");
         super.setRequiresPlayer(true);
@@ -39,7 +39,7 @@ public final class PortalCreate extends AbstractSubCommand {
         }
 
         if (pos1.getWorld() == null || pos2.getWorld() == null) {
-            plugin.getLogger().warning("Creating a portal gave a null world on one position");
+            Main.getInstance().getLogger().warning("Creating a portal gave a null world on one position");
             Messenger.msg(sender, Message.ERROR);
             return true;
         }
@@ -56,7 +56,7 @@ public final class PortalCreate extends AbstractSubCommand {
             return false;
         }
 
-        Portal.createPortal(plugin, name, null, player.getWorld(), pos1.toVector(), pos2.toVector());
+        Portal.createPortal(name, null, player.getWorld(), pos1.toVector(), pos2.toVector());
         Messenger.msg(sender, ReplaceMessage.PORTAL_CREATE_SUCCESS, name);
 
         return true;
