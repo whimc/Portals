@@ -31,18 +31,6 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
-	<!-- Import github release plugin -->
-	<pluginRepositories>
-		<pluginRepository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>bintray-cy6ergn0m-maven</id>
-			<name>bintray-plugins</name>
-			<url>http://dl.bintray.com/cy6ergn0m/maven</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<!-- Repo for plugin -->
 	<scm>
 		<connection>scm:git:git@github.com:whimc/Portals.git</connection>
@@ -61,12 +49,18 @@
 		<!-- Github release settings -->
 		<plugins>
 			<plugin>
-				<groupId>cy.github</groupId>
+				<groupId>de.jutzig</groupId>
 				<artifactId>github-release-plugin</artifactId>
-				<version>0.5.1</version>
-
+				<version>1.1.1</version>
 				<configuration>
-					<releaseTitle>${project.artifactId}-${project.version}</releaseTitle>
+					<description>Release for v${project.version}</description>
+					<releaseName>${project.artifactId}-${project.version}</releaseName>
+					<tag>${project.version}</tag>
+					<fileSets>
+						<fileSet>
+							<directory>${project.build.directory}</directory>
+						</fileSet>
+					</fileSets>
 				</configuration>
 			</plugin>
 		</plugins>
