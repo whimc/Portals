@@ -11,8 +11,6 @@ public class Destination {
 
     public static final String NONE = "none";
 
-    private Main plugin;
-
     private static List<Destination> destinations = new ArrayList<>();
 
     private String name;
@@ -21,16 +19,23 @@ public class Destination {
 
     private boolean isValid = true;
 
-    public static Destination createDestination(Main plugin, String name, Location location) {
-        return new Destination(plugin, name, location, location.getWorld().getName(), true);
+    public static Destination createDestination(String name, Location location) {
+        if (location.getWorld() == null) {
+            Main.getInstance().getLogger().severe("Could not find world within location when creating a Destination");
+            return null;
+        }
+        Destination destination = new Destination(name, location, location.getWorld().getName(), true);
+        destination.register();
+        return destination;
     }
 
-    public static Destination loadDestination(Main plugin, String name, Location location, String worldName) {
-        return new Destination(plugin, name, location, worldName, false);
+    public static Destination loadDestination(String name, Location location, String worldName) {
+        Destination destination = new Destination(name, location, worldName, false);
+        destination.register();
+        return destination;
     }
 
-    private Destination(Main plugin, String name, Location location, String worldName, boolean isNew) {
-        this.plugin = plugin;
+    private Destination(String name, Location location, String worldName, boolean isNew) {
         this.name = name;
         this.location = location;
         this.worldName = worldName;
@@ -40,11 +45,12 @@ public class Destination {
         }
 
         if (isNew) {
-            plugin.getLocationSaver().saveLocation(location, "Destinations." + name);
+            Main.getInstance().getLocationSaver().saveLocation(location, "Destinations." + name);
         }
+    }
 
+    private void register() {
         destinations.add(this);
-
     }
 
     public static List<Destination> getDestinations() {
@@ -88,10 +94,14 @@ public class Destination {
     }
 
     public void setLocation(Location location) {
+        if (location.getWorld() == null) {
+            Main.getInstance().getLogger().severe("Could not find world within location when setting location of destination");
+            return;
+        }
         this.location = location;
         this.worldName = location.getWorld().getName();
         this.isValid = true;
-        plugin.getLocationSaver().saveLocation(location, "Destinations." + name);
+        Main.getInstance().getLocationSaver().saveLocation(location, "Destinations." + name);
     }
 
     public boolean isValid() {
@@ -109,9 +119,9 @@ public class Destination {
         }
 
         destinations.remove(this);
-        plugin.getPortalData().removeKey("Destinations." + this.name);
-        plugin.getPortalData().saveConfig();
-        plugin.getPortalData().reloadConfig();
+        Main.getInstance().getPortalData().removeKey("Destinations." + this.name);
+        Main.getInstance().getPortalData().saveConfig();
+        Main.getInstance().getPortalData().reloadConfig();
     }
 
     public String getWorldName() {

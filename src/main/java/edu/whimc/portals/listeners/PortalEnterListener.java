@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import edu.whimc.portals.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -19,30 +20,43 @@ import edu.whimc.portals.Portal;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
-public class PortalEnterListener implements Listener{
+/**
+ * Manager for Bukkit event handlers to ensure
+ * proper usage of {@link Portal}s in game for events related to entering portals.
+ */
+public class PortalEnterListener implements Listener {
 
     private static Set<UUID> debugPlayers = new HashSet<>();
 
-    public static void addDebugPlayer(Player player) {
+    public static void addDebugPlayer(final Player player) {
         debugPlayers.add(player.getUniqueId());
     }
 
-    public static void removeDebugPlayer(Player player) {
+    public static void removeDebugPlayer(final Player player) {
         debugPlayers.remove(player.getUniqueId());
     }
 
-    public static boolean playerIsDebug(Player player) {
+    public static boolean playerIsDebug(final Player player) {
         return debugPlayers.contains(player.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onMove(PlayerMoveEvent event){
+    public void onMove(PlayerMoveEvent event) {
         Location locTo = event.getTo();
         Location locFrom = event.getFrom();
-        if (locFrom.getBlockX() == locTo.getBlockX() && locFrom.getBlockZ() == locTo.getBlockZ() && locFrom.getBlockY() == locTo.getBlockY()) return;
+        if (locTo == null) {
+            Main.getInstance().getLogger().severe("Could not get the destination of a PlayerMoveEvent");
+            return;
+        }
+
+        if (locFrom.getBlockX() == locTo.getBlockX()
+                && locFrom.getBlockZ() == locTo.getBlockZ()
+                && locFrom.getBlockY() == locTo.getBlockY()) {
+            return;
+        }
 
         Portal portal = Portal.getPortal(locTo);
-        if(portal == null) return;
+        if (portal == null) return;
 
         Player player = event.getPlayer();
 
@@ -57,7 +71,7 @@ public class PortalEnterListener implements Listener{
             return;
         }
 
-        if(!portal.hasDestination()){
+        if (!portal.hasDestination()) {
             Messenger.msg(player, Message.PORTAL_NO_DESTINATION);
             return;
         }
@@ -79,9 +93,10 @@ public class PortalEnterListener implements Listener{
         player.playSound(portal.getDestination().getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 0.5f, 1f);
     }
 
-    private void makeCircleEffect(Player player, int points, double size, double yOffSet){
-        for (int i = 0; i < 360; i += 360/points) {
-            double angle = i * Math.PI / 180;
+    private void makeCircleEffect(Player player, int points, double size, double yOffSet) {
+        double piOver180 = Math.PI / 180;
+        for (int i = 0; i < 360; i += 360 / points) {
+            double angle = i * piOver180;
             double x = size * Math.cos(angle);
             double z = size * Math.sin(angle);
             Location loc = player.getLocation().add(0, yOffSet, 0);

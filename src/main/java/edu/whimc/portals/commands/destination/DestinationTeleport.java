@@ -6,22 +6,26 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class DestinationTeleport extends AbstractSubCommand {
+/**
+ * Allow a player to teleport directly to a {@link Destination}.
+ *
+ * @see DestinationCommand
+ */
+public final class DestinationTeleport extends AbstractSubCommand {
 
-    public DestinationTeleport(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
-        super.description("Teleports you to the given destination");
-        super.arguments("destination");
-        super.requiresPlayer();
+    public DestinationTeleport(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
+        super.setDescription("Teleports you to the given destination");
+        super.provideArguments("destination");
+        super.setRequiresPlayer(true);
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Destination dest = Destination.getDestination(args[0]);
         if (dest == null) {
             Messenger.msg(sender, ReplaceMessage.DESTINATION_DOES_NOT_EXIST, args[0]);
@@ -39,7 +43,7 @@ public class DestinationTeleport extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         return Destination.getTabCompletedDestinations(args[0]);
     }
 

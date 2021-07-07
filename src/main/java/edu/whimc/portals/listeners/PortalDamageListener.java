@@ -9,7 +9,11 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import edu.whimc.portals.Portal;
 
-public class PortalDamageListener implements Listener {
+/**
+ * Container class for Bukkit event handlers to ensure
+ * proper usage of {@link Portal}s in game for events related to damage.
+ */
+public final class PortalDamageListener implements Listener {
 
     @EventHandler
     public void onCombust(EntityCombustByBlockEvent event) {
@@ -24,7 +28,7 @@ public class PortalDamageListener implements Listener {
         if (near != null) event.setCancelled(true);
     }
 
-    private Portal getNearPortal(Block start, int radius){
+    private Portal getNearPortal(Block start, int radius) {
         if (radius < 0) {
             return null;
         }

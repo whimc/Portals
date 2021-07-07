@@ -4,22 +4,27 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class PortalRefill extends AbstractSubCommand {
+/**
+ * Allow a user to regenerate the substance within a {@link Portal} in
+ * the case that it was damaged.
+ *
+ * @see PortalCommand
+ */
+public final class PortalRefill extends AbstractSubCommand {
 
-    public PortalRefill(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
-        super.description("Regenerates the filler of a portal");
-        super.arguments("portal");
+    public PortalRefill(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
+        super.setDescription("Regenerates the filler of a portal");
+        super.provideArguments("portal");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null){
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -38,7 +43,7 @@ public class PortalRefill extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         return Portal.getTabCompletedPortals(args[0]);
     }
 

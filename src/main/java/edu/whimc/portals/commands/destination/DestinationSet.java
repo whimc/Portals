@@ -5,22 +5,26 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class DestinationSet extends AbstractSubCommand {
+/**
+ * Allow a user to set the {@link Destination} of a {@link Portal}.
+ *
+ * @see DestinationCommand
+ */
+public final class DestinationSet extends AbstractSubCommand {
 
-    public DestinationSet(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
-        super.description("Sets the destination of a portal");
-        super.arguments("portal destination");
+    public DestinationSet(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
+        super.setDescription("Sets the destination of a portal");
+        super.provideArguments("portal destination");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null) {
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -39,7 +43,7 @@ public class DestinationSet extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         if (args.length == 2) {
             return Destination.getTabCompletedDestinations(args[1]);
         }

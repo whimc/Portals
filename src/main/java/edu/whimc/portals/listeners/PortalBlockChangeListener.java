@@ -10,10 +10,14 @@ import org.bukkit.event.block.EntityBlockFormEvent;
 
 import edu.whimc.portals.Portal;
 
-public class PortalBlockChangeListener implements Listener{
+/**
+ * Container class for Bukkit event handlers to ensure
+ * proper usage of {@link Portal}s in game for events related to block changes.
+ */
+public final class PortalBlockChangeListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onWaterMove(BlockFromToEvent event){
+    public void onWaterMove(BlockFromToEvent event) {
         Portal portal = Portal.getPortal(event.getBlock());
         if (portal != null) event.setCancelled(true);
     }
