@@ -12,7 +12,7 @@ import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
 /**
- * The command to sets the location of a destination to the user's current position.
+ * The command to set the location of a destination to the user's current position.
  * Command: "/destination change"
  */
 public class DestinationChange extends AbstractSubCommand {
