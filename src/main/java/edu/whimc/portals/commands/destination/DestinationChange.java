@@ -38,7 +38,7 @@ public class DestinationChange extends AbstractSubCommand {
      */
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        // get the sender's current destination
+        // get the current destination
         Destination dest = Destination.getDestination(args[0]);
 
         // notify if destination does not exist and abort command execution
