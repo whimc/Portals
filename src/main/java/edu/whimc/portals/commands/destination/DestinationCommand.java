@@ -18,15 +18,25 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
+/**
+ * Main handler for the "/destination" root command.
+ */
 public class DestinationCommand implements CommandExecutor,TabCompleter {
 
     private Map<String, AbstractSubCommand> subCommands = new HashMap<>();
 
+    /**
+     * Constructs a DestinationCommand.
+     *
+     * @param plugin the instance of the plugin.
+     */
     public DestinationCommand(Main plugin) {
+        // set up permissions
         Permission perm = new Permission(Main.PERM_PREFIX + ".destination.*");
         perm.addParent(Main.PERM_PREFIX + ".*", true);
         Bukkit.getPluginManager().addPermission(perm);
 
+        // add all subcommands
         subCommands.put("change", new DestinationChange(plugin, "destination", "change"));
         subCommands.put("clear", new DestinationClear(plugin, "destination", "clear"));
         subCommands.put("create", new DestinationCreate(plugin, "destination", "create"));
@@ -39,13 +49,18 @@ public class DestinationCommand implements CommandExecutor,TabCompleter {
         subCommands.put("teleport", new DestinationTeleport(plugin, "destination", "teleport"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        // send command usages to user if no arguments provided
         if (args.length == 0){
             sendCommands(sender);
             return true;
         }
 
+        // send command usages to user if subcommand invalid
         AbstractSubCommand subCmd = subCommands.getOrDefault(args[0].toLowerCase(), null);
         if (subCmd == null) {
             sendCommands(sender);
@@ -55,6 +70,9 @@ public class DestinationCommand implements CommandExecutor,TabCompleter {
         return subCmd.executeSubCommand(sender, args);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 0) {
@@ -77,6 +95,11 @@ public class DestinationCommand implements CommandExecutor,TabCompleter {
         return subCmd.executeOnTabComplete(sender, Arrays.copyOfRange(args, 1, args.length));
     }
 
+    /**
+     * Outputs all commands and their usages in the chat / server logs.
+     *
+     * @param sender the command's sender.
+     */
     private void sendCommands(CommandSender sender){
         Messenger.msg(sender, Message.LINE_COMMAND_LIST.toString());
         subCommands.entrySet()
