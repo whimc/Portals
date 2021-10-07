@@ -30,7 +30,7 @@ public class DestinationInfo extends AbstractSubCommand {
     }
 
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      *
      * Sends information about the current destination to the sender.
      */
@@ -51,7 +51,7 @@ public class DestinationInfo extends AbstractSubCommand {
     }
 
     /**
-     * {inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     protected List<String> onTabComplete(CommandSender sender, String[] args) {
