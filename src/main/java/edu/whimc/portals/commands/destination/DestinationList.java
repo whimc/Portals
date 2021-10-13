@@ -4,20 +4,24 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import edu.whimc.portals.Destination;
-import edu.whimc.portals.Main;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
-public class DestinationList extends AbstractSubCommand {
+/**
+ * Provides a user with a list of all registered {@link Destination}s.
+ *
+ * @see DestinationCommand
+ */
+public final class DestinationList extends AbstractSubCommand {
 
-    public DestinationList(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
-        super.description("Lists all destinations");
+    public DestinationList(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
+        super.setDescription("Lists all destinations");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         if (Destination.getDestinations().size() == 0) {
             Messenger.msg(sender, Message.NO_DESTINATIONS);
             return true;

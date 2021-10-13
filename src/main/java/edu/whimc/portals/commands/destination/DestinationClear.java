@@ -4,22 +4,26 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
-import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class DestinationClear extends AbstractSubCommand {
+/**
+ * Allows a user to remove a {@link edu.whimc.portals.Destination}.
+ *
+ * @see DestinationCommand
+ */
+public final class DestinationClear extends AbstractSubCommand {
 
-    public DestinationClear(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
-        super.description("Removes the destination of a portal");
-        super.arguments("portal");
+    public DestinationClear(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
+        super.setDescription("Removes the destination of a portal");
+        super.provideArguments("portal");
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Portal portal = Portal.getPortal(args[0]);
         if (portal == null) {
             Messenger.msg(sender, ReplaceMessage.PORTAL_DOES_NOT_EXIST, args[0]);
@@ -32,7 +36,7 @@ public class DestinationClear extends AbstractSubCommand {
     }
 
     @Override
-    protected List<String> onTabComplete(CommandSender sender, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, String[] args) {
         return Portal.getTabCompletedPortals(args[0]);
     }
 

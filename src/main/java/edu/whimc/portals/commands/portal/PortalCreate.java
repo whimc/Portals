@@ -12,23 +12,35 @@ import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 import edu.whimc.portals.utils.Messenger.ReplaceMessage;
 
-public class PortalCreate extends AbstractSubCommand {
+/**
+ * Allow a user to create a new {@link Portal} based on previously specified locations.
+ *
+ * @see PortalCommand
+ * @see ToolSelectListener
+ */
+public final class PortalCreate extends AbstractSubCommand {
 
-    public PortalCreate(Main plugin, String baseCommand, String subCommand) {
-        super(plugin, baseCommand, subCommand);
-        super.description("Creates a permissionless portal using the selected location");
-        super.arguments("name");
-        super.requiresPlayer();
+    public PortalCreate(String baseCommand, String subCommand) {
+        super(baseCommand, subCommand);
+        super.setDescription("Creates a permission-less portal using the selected location");
+        super.provideArguments("name");
+        super.setRequiresPlayer(true);
     }
 
     @Override
-    protected boolean onCommand(CommandSender sender, String[] args) {
+    protected final boolean onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
         Location pos1 = ToolSelectListener.leftClicks.get(player.getUniqueId());
         Location pos2 = ToolSelectListener.rightClicks.get(player.getUniqueId());
 
         if (pos1 == null || pos2 == null){
             Messenger.msg(sender, Message.POS_BOTH_NOT_SELECTED);
+            return true;
+        }
+
+        if (pos1.getWorld() == null || pos2.getWorld() == null) {
+            Main.getInstance().getLogger().warning("Creating a portal gave a null world on one position");
+            Messenger.msg(sender, Message.ERROR);
             return true;
         }
 
@@ -44,7 +56,7 @@ public class PortalCreate extends AbstractSubCommand {
             return false;
         }
 
-        Portal.createPortal(plugin, name, null, player.getWorld(), pos1.toVector(), pos2.toVector());
+        Portal.createPortal(name, null, player.getWorld(), pos1.toVector(), pos2.toVector());
         Messenger.msg(sender, ReplaceMessage.PORTAL_CREATE_SUCCESS, name);
 
         return true;

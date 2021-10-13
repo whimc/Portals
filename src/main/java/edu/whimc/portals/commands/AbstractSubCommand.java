@@ -2,6 +2,7 @@ package edu.whimc.portals.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -16,6 +17,11 @@ import edu.whimc.portals.Main;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
+/**
+ * A blank template for any sub command within this plugin, designed
+ * to be the second tier of a two-tier command tree, of which
+ * an {@link AbstractRootCommand} is the root.
+ */
 public abstract class AbstractSubCommand {
 
     private static final String PRIMARY = "&7";
@@ -24,7 +30,6 @@ public abstract class AbstractSubCommand {
     private static final String SEPARATOR = "&8";
     private static final String TEXT = "&f";
 
-    protected Main plugin;
     private String baseCommand;
     private String subCommand;
     private String permission;
@@ -33,8 +38,7 @@ public abstract class AbstractSubCommand {
     private String[] arguments = {};
     private boolean requiresPlayer = false;
 
-    public AbstractSubCommand(Main plugin, String baseCommand, String subCommand) {
-        this.plugin = plugin;
+    public AbstractSubCommand(String baseCommand, String subCommand) {
         this.baseCommand = baseCommand;
         this.subCommand = subCommand;
 
@@ -44,17 +48,26 @@ public abstract class AbstractSubCommand {
         Bukkit.getPluginManager().addPermission(perm);
     }
 
-    protected void description(String desc) { this.description = desc; }
-    protected void arguments(String args) { this.arguments = args.split(" "); }
-    protected void requiresPlayer() { this.requiresPlayer = true; }
+    protected final void setDescription(String desc) {
+        this.description = desc;
+    }
 
-    protected List<String> onTabComplete(CommandSender sender, String[] args) { return Arrays.asList(); }
+    /**
+     * Parses a single string of arguments into a private array.
+     * These arguments represents the required format for usage of this sub command.
+     *
+     * @param args a single string of space separated arguments
+     */
+    protected final void provideArguments(String args) {
+        this.arguments = args.split(" ");
+    }
 
-    public List<String> executeOnTabComplete(CommandSender sender, String args[]) {
-        if (!sender.hasPermission(getPermission()) || args.length > arguments.length) {
-            return Arrays.asList();
-        }
-        return onTabComplete(sender, args);
+    protected final void setRequiresPlayer(boolean value) {
+        this.requiresPlayer = value;
+    }
+
+    public List<String> onTabComplete(CommandSender sender, String[] args) {
+        return Collections.emptyList();
     }
 
     private String formatArg(String arg) {
@@ -64,16 +77,25 @@ public abstract class AbstractSubCommand {
         return PRIMARY + "<" + ACCENT + String.join(SEPARATOR + " | " + ACCENT, options) + PRIMARY + ">";
     }
 
+    /**
+     * Formulate the entire command, including both this sub command and its base command.
+     *
+     * @return the full command string
+     */
     public String getCommand() {
         return PRIMARY + "/" + this.baseCommand + " " + SECONDARY + this.subCommand;
     }
 
+    public String getSubCommand() {
+        return subCommand;
+    }
+
     public String getUsage() {
-        String usage = getCommand() + " ";
+        StringBuilder usage = new StringBuilder(getCommand() + " ");
         for (String arg : this.arguments) {
-            usage += formatArg(arg) + " ";
+            usage.append(formatArg(arg)).append(" ");
         }
-        return usage.trim();
+        return usage.toString().trim();
     }
 
     public String getHelpLine() {
@@ -86,6 +108,10 @@ public abstract class AbstractSubCommand {
 
     public String getDescription() {
         return this.description;
+    }
+
+    public String[] getArguments() {
+        return this.arguments;
     }
 
     protected abstract boolean onCommand(CommandSender sender, String[] args);
