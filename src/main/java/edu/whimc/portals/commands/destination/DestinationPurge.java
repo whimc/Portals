@@ -48,23 +48,26 @@ public class DestinationPurge extends AbstractSubCommand {
             targets = Destination.getDestinations().stream()
                     .filter(v -> !v.isValid())
                     .collect(Collectors.toList());
+        }
 
         // filters targets by unused destinations
-        } else if (action.equalsIgnoreCase("no-portals")) {
+        else if (action.equalsIgnoreCase("no-portals")) {
             msg = ReplaceMessage.DESTINATION_PURGED_NO_PORTALS;
             targets = Destination.getDestinations().stream()
                     .filter(v -> v.getLinkedPortals().isEmpty())
                     .collect(Collectors.toList());
+        }
 
         // sets targets as all unused and invalid destinations
-        } else if (action.equalsIgnoreCase("both")) {
+        else if (action.equalsIgnoreCase("both")) {
             msg = ReplaceMessage.DESTINATION_PURGED_BOTH;
             targets = Destination.getDestinations().stream()
                     .filter(v -> !v.isValid() || v.getLinkedPortals().isEmpty())
                     .collect(Collectors.toList());
+        }
 
         // send the user the command's usage and abort command execution
-        } else {
+        else {
             Messenger.usageUnknownArg(sender, action, super.getDescription(), super.getUsage());
             return true;
         }
