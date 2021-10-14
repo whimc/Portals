@@ -34,7 +34,7 @@ public class PortalList extends AbstractSubCommand {
      */
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        // notify if there ar eno existing portals and abort command execution
+        // notify if there are no existing portals and abort command execution
         if (Portal.getPortals().size() == 0) {
             Messenger.msg(sender, Message.NO_PORTALS);
             return true;
