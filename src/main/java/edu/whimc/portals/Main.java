@@ -18,14 +18,23 @@ import edu.whimc.portals.utils.LocationSaver;
 import edu.whimc.portals.utils.MyConfig;
 import edu.whimc.portals.utils.MyConfigManager;
 
+/**
+ * The main plugin class.
+ */
 public class Main extends JavaPlugin {
-
+    /* The permissions prefix. */
     public static final String PERM_PREFIX = "whimc-portals";
 
+    /* The instance of the ConfigManager */
     private MyConfigManager manager;
+    /* The portals config. */
     private static MyConfig portalData;
+    /* The instance of the location saver. */
     private LocationSaver locationSaver;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onEnable() {
         manager = new MyConfigManager(this);
@@ -43,14 +52,19 @@ public class Main extends JavaPlugin {
         registerStuff();
     }
 
+    /** @return The portalData MyConfig. */
     public MyConfig getPortalData() {
         return portalData;
     }
 
+    /** @return The instance of the LocationSaver. */
     public LocationSaver getLocationSaver() {
         return locationSaver;
     }
 
+    /**
+     * Registers event listeners and sub-commands.
+     */
     private void registerStuff() {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PortalEnterListener(), this);
@@ -67,6 +81,9 @@ public class Main extends JavaPlugin {
         getCommand("destination").setTabCompleter(dc);
     }
 
+    /**
+     * Loads Portals and Destinations from the config file.
+     */
     private void initializeConfig() {
         if (portalData.contains("Destinations")) {
             String path, destWorldName;
