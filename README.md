@@ -38,7 +38,7 @@ $ mvn install
 |`/portal teleport <portal_name>`                     | Teleports the user to the provided portal.                         |
 |`/portal tool`                                       | Gives user the portal selector tool.                               |
 
-### Creating a Portal
+### How to Create a Portal
 
 To setup a new portal you'll want to use the `wooden sword` tool to `left` and then `right` click two blocks to select an ``empty`` area. Then do:
 
@@ -50,7 +50,7 @@ To setup a new portal you'll want to use the `wooden sword` tool to `left` and t
 
 After this, you'll want to configure a destination.
 
-### Creating and Setting a Destination
+### How to Create and Set a Destination
 
 Destinations are independent of portals, so you can have many portals link to a single destination. To create a destination to stand in the place you want it and do:
 
@@ -73,7 +73,24 @@ Note that `/destination` has many other sub-commands, including:
 
 ### portalData.yml
 
-Includes a listing of each portal with world, position info, destination and permissions as well as a listing of all destinations with worlds and positions. 
+Includes a listing of each portal with world, position info, destination and permissions as well as a listing of all destinations with worlds and positions.
+
+#### Example
+The file will look something like this:
+```yaml
+Portals:
+  PortalName:
+    world: WorldName
+    pos1:
+      x: 0
+      y: 0
+      z: 0
+    pos2:
+      x: 3
+      y: 3
+      z: 0
+    destination: DestinationName
+```
 
 ---
 ## Dependencies
