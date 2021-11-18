@@ -7,21 +7,38 @@ import org.bukkit.util.Vector;
 
 import edu.whimc.portals.Main;
 
+/**
+ * Handles saving and retrieving location data to and from the portal config.
+ */
 public class LocationSaver {
-
+    /* The portal data configuration. */
     private MyConfig portalData;
 
+    /**
+     * Constructs a LocationSaver.
+     *
+     * @param plugin The instance of the plugin.
+     */
     public LocationSaver(Main plugin) {
         this.portalData = plugin.getPortalData();
     }
 
+    /**
+     * Saves the location to the portal data config.
+     *
+     * @param loc The location to save.
+     * @param path The path to the portal data in the config.
+     */
     public void saveLocation(Location loc, String path){
-        if(loc == null){
+        // ensure location exists
+        if (loc == null){
             portalData.removeKey(path);
             portalData.saveConfig();
             portalData.reloadConfig();
             return;
         }
+
+        // save the location
         String world;
         double x,y,z;
         float yaw,pitch;
@@ -41,6 +58,12 @@ public class LocationSaver {
         portalData.reloadConfig();
     }
 
+    /**
+     * Saves the location vector (x, y, z).
+     *
+     * @param vector The vector of coordinates.
+     * @param path The path to the portal data in the config.
+     */
     public void saveVector(Vector vector, String path){
         int x,y,z;
         x = vector.getBlockX();
@@ -53,18 +76,24 @@ public class LocationSaver {
         portalData.reloadConfig();
     }
 
+    /**
+     * Gets the location of the specified portal.
+     *
+     * @param path The path to the portal data in the config.
+     * @return The location of the specified portal.
+     */
     public Location getLocation(String path){
         String worldName;
-        double x,y,z;
-        float yaw,pitch;
-        try{
+        double x, y, z;
+        float yaw, pitch;
+        try {
             worldName = portalData.getString(path + ".world");
             x = portalData.getDouble(path + ".x");
             y = portalData.getDouble(path + ".y");
             z = portalData.getDouble(path + ".z");
             yaw = portalData.getFloat(path + ".yaw");
             pitch = portalData.getFloat(path + ".pitch");
-        }catch(Exception e){
+        } catch (Exception e){
             return null;
         }
         World world = Bukkit.getWorld(worldName);
