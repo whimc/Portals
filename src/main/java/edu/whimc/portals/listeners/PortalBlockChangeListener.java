@@ -10,26 +10,49 @@ import org.bukkit.event.block.EntityBlockFormEvent;
 
 import edu.whimc.portals.Portal;
 
-public class PortalBlockChangeListener implements Listener{
+/**
+ * Listens for events where the portal blocks change.
+ */
+public class PortalBlockChangeListener implements Listener {
 
+    /**
+     * Cancel the water movement if the portal exists.
+     *
+     * @param event The block event.
+     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onWaterMove(BlockFromToEvent event){
         Portal portal = Portal.getPortal(event.getBlock());
         if (portal != null) event.setCancelled(true);
     }
 
+    /**
+     * Cancel the block formation if the portal exists.
+     *
+     * @param event The block event.
+     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockForm(BlockFormEvent event) {
         Portal portal = Portal.getPortal(event.getBlock());
         if (portal != null) event.setCancelled(true);
     }
 
+    /**
+     * Cancel the block formation if the portal exists.
+     *
+     * @param event The block event.
+     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onEntityBlockForm(EntityBlockFormEvent event) {
         Portal portal = Portal.getPortal(event.getBlock());
         if (portal != null) event.setCancelled(true);
     }
 
+    /**
+     * Cancel the block ignition if the portal exists.
+     *
+     * @param event The block event.
+     */
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockIgnite(BlockIgniteEvent event) {
         Portal portal = Portal.getPortal(event.getIgnitingBlock());
