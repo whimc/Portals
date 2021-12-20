@@ -22,19 +22,16 @@ import edu.whimc.portals.utils.MyConfigManager;
  * The main plugin class.
  */
 public class Main extends JavaPlugin {
-    /* The permissions prefix. */
+    /** The permissions prefix. */
     public static final String PERM_PREFIX = "whimc-portals";
 
-    /* The instance of the ConfigManager */
+    /** The instance of the ConfigManager */
     private MyConfigManager manager;
-    /* The portals config. */
+    /** The portals config. */
     private static MyConfig portalData;
-    /* The instance of the location saver. */
+    /** The instance of the location saver. */
     private LocationSaver locationSaver;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void onEnable() {
         manager = new MyConfigManager(this);
