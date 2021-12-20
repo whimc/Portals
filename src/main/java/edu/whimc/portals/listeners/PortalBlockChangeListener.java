@@ -16,7 +16,7 @@ import edu.whimc.portals.Portal;
 public class PortalBlockChangeListener implements Listener {
 
     /**
-     * Cancel the water movement if the portal exists.
+     * Cancel water/lava movement inside portals.
      *
      * @param event The block event.
      */
@@ -27,7 +27,7 @@ public class PortalBlockChangeListener implements Listener {
     }
 
     /**
-     * Cancel the block formation if the portal exists.
+     * Cancel block formations inside portals.
      *
      * @param event The block event.
      */
@@ -38,7 +38,7 @@ public class PortalBlockChangeListener implements Listener {
     }
 
     /**
-     * Cancel the block formation if the portal exists.
+     * Stop entities from forming blocks inside portals.
      *
      * @param event The block event.
      */
@@ -49,7 +49,7 @@ public class PortalBlockChangeListener implements Listener {
     }
 
     /**
-     * Cancel the block ignition if the portal exists.
+     * Cancel block ignition inside portals.
      *
      * @param event The block event.
      */
