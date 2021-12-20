@@ -24,17 +24,17 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.util.Vector;
 
 /**
- * The class to sore Portal data.
+ * The class to store Portal data.
  */
 public class Portal {
 
-    /* The list of portals. */
+    /** The list of all portals. */
     private static List<Portal> portals = new ArrayList<>();
-    /* The map of portal data. */
+    /** Map of serialized locations to their respective Portal. Allows for fast lookups. */
     private static Map<String, Portal> portalData = new HashMap<>();
-    /* The default material to fill the portal with. */
+    /** The default material to fill the portal with. */
     private static Material defaultFiller = Material.END_GATEWAY;
-    /* The set of valid portal fill materials. */
+    /** The set of valid portal fill materials. */
     private static final Set<Material> validFillers = new HashSet<>(Arrays.asList(
             Material.AIR,
             Material.WATER,
@@ -42,24 +42,24 @@ public class Portal {
             Material.COBWEB,
             Material.END_GATEWAY));
 
-    /* The instance of the plugin. */
+    /** The instance of the plugin. */
     private Main plugin;
-    /* The name of the portal. */
+    /** The name of the portal. */
     private String name;
-    /* The name of the word that the portal is in */
+    /** The name of the word that the portal is in */
     private String worldName;
-    /* The permission level required to use the portal. */
+    /** The permission level required to use the portal. */
     private Permission permission;
-    /* The first position defining the portal. */
+    /** The first position defining the portal. */
     private Vector pos1;
-    /* The second position defining the portal. */
+    /** The second position defining the portal. */
     private Vector pos2;
-    /* The destination that the portal will take you to. */
+    /** The destination that the portal will take you to. */
     private Destination destination;
-    /* The filler materials of the portal. */
+    /** The filler materials of the portal. */
     private Material filler;
 
-    /* If the portal is valid. */
+    /** If the portal is valid. */
     private boolean valid = true;
 
     /**
@@ -150,7 +150,7 @@ public class Portal {
         }
     }
 
-    /** @return The list of portals. */
+    /** @return The list of all portals. */
     public static List<Portal> getPortals() {
         return portals;
     }
@@ -626,7 +626,7 @@ public class Portal {
     }
 
     /**
-     * Sets the configuration of the portal.
+     * Sets a value in the config for this portal.
      *
      * @param key The key for the data to set in the configuration.
      * @param value The value of the data for the specified key.
