@@ -11,23 +11,23 @@ import org.bukkit.entity.Player;
  * The class to store Destination data.
  */
 public class Destination {
-    /* Keyword for no destination. */
+    /** Keyword for no destination. */
     public static final String NONE = "none";
 
-    /* The instance of the plugin. */
+    /** The instance of the plugin. */
     private Main plugin;
 
-    /* The list of destinations. */
+    /** The list of all destinations. */
     private static List<Destination> destinations = new ArrayList<>();
 
-    /* The name of the destination. */
+    /** The name of the destination. */
     private String name;
-    /* The location of the destination. */
+    /** The location of the destination. */
     private Location location;
-    /* The name of the world that the destination is in. */
+    /** The name of the world that the destination is in. */
     private String worldName;
 
-    /* If the destination is valid. */
+    /** If the destination is valid. */
     private boolean isValid = true;
 
     /**
@@ -82,7 +82,7 @@ public class Destination {
 
     }
 
-    /** @return The list of destinations. */
+    /** @return The list of all destinations. */
     public static List<Destination> getDestinations() {
         return destinations;
     }
@@ -133,7 +133,7 @@ public class Destination {
         return name;
     }
 
-    /** The location of the Destination. */
+    /** @return The location of the Destination. */
     public Location getLocation() {
         return location;
     }
