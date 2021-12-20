@@ -10,7 +10,7 @@ import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
 /**
- * The command to toggle debug more. Displays information about the portal the user is entering
+ * The command to toggle debug mode for the player. Displays information about the portal the user is entering
  * instead of teleporting.
  * Command: "/portal debug"
  */
