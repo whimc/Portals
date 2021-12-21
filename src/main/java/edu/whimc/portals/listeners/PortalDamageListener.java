@@ -15,7 +15,7 @@ import edu.whimc.portals.Portal;
 public class PortalDamageListener implements Listener {
 
     /**
-     * Cancel the combustion event if it is too close to a portal.
+     * Stop entities from lighting on fire inside portals. (For lava-filled portals).
      *
      * @param event The EntityCombustByBlockEvent.
      */
@@ -26,7 +26,7 @@ public class PortalDamageListener implements Listener {
     }
 
     /**
-     * Cancel damage caused to entities if it is too close to a portal.
+     * Stop entities from taking lava damage from lava-filled portals.
      *
      * @param event The EntityDamageByBlockEvent.
      */
