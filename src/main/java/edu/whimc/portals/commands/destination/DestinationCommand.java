@@ -72,6 +72,8 @@ public class DestinationCommand implements CommandExecutor,TabCompleter {
 
     /**
      * {@inheritDoc}
+     *
+     * Note: the sub-command handles tab completion.
      */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
