@@ -11,7 +11,7 @@ import org.bukkit.event.block.EntityBlockFormEvent;
 import edu.whimc.portals.Portal;
 
 /**
- * Listens for events where the portal blocks change.
+ * Listens for events where the blocks inside portals change.
  */
 public class PortalBlockChangeListener implements Listener {
 
