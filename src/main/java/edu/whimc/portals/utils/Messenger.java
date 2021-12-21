@@ -74,7 +74,7 @@ public class Messenger {
     }
 
     /**
-     * Sends the sender a message about what argument are is unknown and displays the command's
+     * Sends the sender a message about providing an unknown argument and displays the command's
      * usage and description.
      *
      * @param sender The command's sender.
