@@ -23,11 +23,11 @@ import edu.whimc.portals.utils.Messenger.Message;
  * Listens for events where the portal is entered.
  */
 public class PortalEnterListener implements Listener {
-    /* The list of UUIDs of players with debug mode enabled. */
+    /** The list of UUIDs of players with debug mode enabled. */
     private static Set<UUID> debugPlayers = new HashSet<>();
 
     /**
-     * Adds the UUID of the passed player to hte list of players with debug mode enabled.
+     * Enable debug mode for the given player.
      *
      * @param player The player.
      */
@@ -36,7 +36,7 @@ public class PortalEnterListener implements Listener {
     }
 
     /**
-     * Removes the UUID of the passed player to the list of players with debug mode enabled.
+     * Disable debug mode for the given player.
      *
      * @param player The player.
      */
@@ -61,7 +61,7 @@ public class PortalEnterListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMove(PlayerMoveEvent event) {
-        // get the move event locations and check if it's withing the portal bounds
+        // return early if the player didn't move a full block.
         Location locTo = event.getTo();
         Location locFrom = event.getFrom();
         if (locFrom.getBlockX() == locTo.getBlockX() && locFrom.getBlockZ() == locTo.getBlockZ() && locFrom.getBlockY() == locTo.getBlockY()) return;
