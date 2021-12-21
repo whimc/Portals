@@ -16,12 +16,12 @@ import org.bukkit.inventory.ItemStack;
 import edu.whimc.portals.utils.Messenger;
 
 /**
- * Listens for events where a portal tool is selected.
+ * Listens for events where a portal tool is used.
  */
 public class ToolSelectListener implements Listener {
-	/* The map of left-click locations with the player's UUID as the key. */
+	/** The map of left-click locations with the player's UUID as the key. */
 	public static Map<UUID, Location> leftClicks = new HashMap<UUID, Location>();
-	/* The map of right-click locations with the player's UUID as the key. */
+	/** The map of right-click locations with the player's UUID as the key. */
 	public static Map<UUID, Location> rightClicks = new HashMap<UUID, Location>();
 
 	/**
