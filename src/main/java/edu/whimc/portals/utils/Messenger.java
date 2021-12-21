@@ -13,7 +13,7 @@ import edu.whimc.portals.Portal;
  * The class that handles in-game messages about the plugin.
  */
 public class Messenger {
-    /* The prefix for plugin related messages */
+    /** The prefix for plugin related messages */
     public static final String prefix = "&7[&b&lPortals&7]&r ";
 
     /**

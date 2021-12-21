@@ -16,7 +16,7 @@ import edu.whimc.portals.utils.Messenger.ReplaceMessage;
  */
 public class PortalPermission extends AbstractSubCommand {
 
-    /* Reserved word to clear permissions */
+    /** Reserved word to clear permissions */
     private static final String PERMISSION_NONE = "none";
 
     /**

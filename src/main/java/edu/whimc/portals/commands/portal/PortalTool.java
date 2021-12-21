@@ -18,7 +18,7 @@ import edu.whimc.portals.utils.Messenger.Message;
  */
 public class PortalTool extends AbstractSubCommand {
 
-    /* the item that represents the portal tool */
+    /** The item that represents the portal tool */
     private static final ItemStack TOOL = new ItemStack(Material.WOODEN_SWORD);
 
     /**

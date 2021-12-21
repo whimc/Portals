@@ -28,13 +28,13 @@ public abstract class AbstractSubCommand {
     private static final String SEPARATOR = "&8";
     private static final String TEXT = "&f";
 
-    /* The instance of the plugin. */
+    /** The instance of the plugin. */
     protected Main plugin;
-    /* The base command keyword. */
+    /** The base command keyword. */
     private String baseCommand;
-    /* The sub command keyword. */
+    /** The sub command keyword. */
     private String subCommand;
-    /* The permission level required to use the command. */
+    /** The permission level required to use the command. */
     private String permission;
 
     /* The description of the command. */

@@ -11,7 +11,7 @@ import edu.whimc.portals.Main;
  * Handles saving and retrieving location data to and from the portal config.
  */
 public class LocationSaver {
-    /* The portal data configuration. */
+    /** The portal data configuration. */
     private MyConfig portalData;
 
     /**

@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * This class manages MyConfig.
  */
 public class MyConfigManager {
-	/* The instance of the plugin. */
+	/** The instance of the plugin. */
 	private JavaPlugin plugin;
 
 	/**

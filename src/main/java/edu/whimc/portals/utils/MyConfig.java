@@ -16,14 +16,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MyConfig {
 
-	/* The number of comments. */
+	/** The number of comments. */
 	private int comments;
-	/* An instance of a MyConfigManager. */
+	/** An instance of a MyConfigManager. */
 	private MyConfigManager manager;
 
-	/* The configuration file. */
+	/** The configuration file. */
 	private File file;
-	/* The configuration file as a FileConfiguration. */
+	/** The configuration file as a FileConfiguration. */
 	private FileConfiguration config;
 
 	/**
