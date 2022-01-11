@@ -9,14 +9,27 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import edu.whimc.portals.Portal;
 
+/**
+ * Listens for events that cause damage to the portal.
+ */
 public class PortalDamageListener implements Listener {
 
+    /**
+     * Stop entities from lighting on fire inside portals. (For lava-filled portals).
+     *
+     * @param event The EntityCombustByBlockEvent.
+     */
     @EventHandler
     public void onCombust(EntityCombustByBlockEvent event) {
         Portal near = getNearPortal(event.getEntity().getLocation().getBlock(), 1);
         if (near != null) event.setCancelled(true);
     }
 
+    /**
+     * Stop entities from taking lava damage from lava-filled portals.
+     *
+     * @param event The EntityDamageByBlockEvent.
+     */
     @EventHandler
     public void onDamage(EntityDamageByBlockEvent event) {
         if (event.getCause() != DamageCause.LAVA) return;
@@ -24,6 +37,13 @@ public class PortalDamageListener implements Listener {
         if (near != null) event.setCancelled(true);
     }
 
+    /**
+     * Checks if a circular area from the source block contains a portal.
+     *
+     * @param start The block to start measuring from.
+     * @param radius The radius considered to be "near".
+     * @return The portal that is near.
+     */
     private Portal getNearPortal(Block start, int radius){
         if (radius < 0) {
             return null;

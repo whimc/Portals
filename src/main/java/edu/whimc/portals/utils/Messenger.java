@@ -9,42 +9,102 @@ import org.bukkit.permissions.Permission;
 import edu.whimc.portals.Destination;
 import edu.whimc.portals.Portal;
 
+/**
+ * The class that handles in-game messages about the plugin.
+ */
 public class Messenger {
-
+    /** The prefix for plugin related messages */
     public static final String prefix = "&7[&b&lPortals&7]&r ";
 
+    /**
+     * Send the passed message to the command sender.
+     *
+     * @param sender The command's sender.
+     * @param message The message type.
+     */
     public static void msg(CommandSender sender, Message message) {
         sender.sendMessage(color(message.toString()));
     }
 
+    /**
+     * Send the passed replacement message to the command sender.
+     *
+     * @param sender The command's sender.
+     * @param message The replacement message type.
+     * @param replace The replacement text.
+     */
     public static void msg(CommandSender sender, ReplaceMessage message, String... replace) {
         sender.sendMessage(color(message.toString(replace)));
     }
 
+    /**
+     * Sends the passed string to the sender.
+     *
+     * @param sender The command's sender.
+     * @param str The message text.
+     */
     public static void msg(CommandSender sender, String str) {
         sender.sendMessage(color(str));
     }
 
+    /**
+     * Sends the passed strings to the sender.
+     *
+     * @param sender The command's sender.
+     * @param strings The list of text for the messages.
+     */
     public static void msg(CommandSender sender, String... strings) {
         for (String str : strings) {
             msg(sender, str);
         }
     }
 
+    /**
+     * Sends the sender a message about what arguments are missing and displays the command's
+     * usage and description.
+     *
+     * @param sender The command's sender.
+     * @param missingArgs The the arguments missing from the command call.
+     * @param description The command's description.
+     * @param usage The command's usage.
+     */
     public static void usageMissingArgs(CommandSender sender, String missingArgs, String description, String usage) {
         msg(sender, ReplaceMessage.MISSING_ARGUMENTS, missingArgs);
         msg(sender, "  " + usage);
     }
 
+    /**
+     * Sends the sender a message about providing an unknown argument and displays the command's
+     * usage and description.
+     *
+     * @param sender The command's sender.
+     * @param arg The argument that is unrecognized.
+     * @param description The command's description.
+     * @param usage The command's usage.
+     */
     public static void usageUnknownArg(CommandSender sender, String arg, String description, String usage) {
         msg(sender, ReplaceMessage.UNKNOWN_ARGUMENT, arg);
         msg(sender, "  " + usage);
     }
 
+    /**
+     * Translates a string using '&' into a string that uses the internal ChatColor.COLOR_CODE color code character.
+     * The alternate color code character will only be replaced if it is immediately followed by 0-9, A-F, a-f, K-O,
+     * k-o, R or r.
+     *
+     * @param str The String to translate.
+     * @return The translated String.
+     */
     public static String color(String str) {
         return ChatColor.translateAlternateColorCodes('&', str);
     }
 
+    /**
+     * Sends the sender information about the passed Portal.
+     *
+     * @param sender The command's sender.
+     * @param portal The portal to display information about.
+     */
     public static void sendPortalInfo(CommandSender sender, Portal portal) {
         msg(sender, Message.LINE);
         msg(sender,
@@ -66,6 +126,12 @@ public class Messenger {
         msg(sender, Message.LINE);
     }
 
+    /**
+     * Sends the sender information about the passed Destination.
+     *
+     * @param sender The command's sender.
+     * @param dest The destination to display information about.
+     */
     public static void sendDestinationInfo(CommandSender sender, Destination dest) {
         msg(sender, Message.LINE);
         msg(sender,
@@ -94,6 +160,9 @@ public class Messenger {
         msg(sender, Message.LINE);
     }
 
+    /**
+     * The types of preset messages to send.
+     */
     public enum Message {
         NO_PERMISSION(prefix + "&cYou cannot use this command!"),
         MUST_BE_PLAYER(prefix + "&cYou must be a player to use this command!"),
@@ -115,18 +184,28 @@ public class Messenger {
         LINE_COMMAND_LIST("&m                     &r &7[&b&lPortals&7]&r &m                     &r"),
         LINE("&m                                                        &r");
 
+        /* The message text. */
         private String message;
 
+        /**
+         * Constructs a Message.
+         *
+         * @param message The message text.
+         */
         private Message(String message) {
             this.message = message;
         }
 
+        /** {@inheritDoc} */
         @Override
         public String toString() {
             return message;
         }
     }
 
+    /**
+     * The preset messages (with replacement text) to send.
+     */
     public enum ReplaceMessage {
         PORTAL_DOES_NOT_EXIST(prefix + "&cThe portal '&4%s&c' does not exist!"),
         PORTAL_ALREADY_EXISTS(prefix + "&cThe portal &4%s&c already exists!"),
@@ -164,12 +243,24 @@ public class Messenger {
         MISSING_ARGUMENTS(prefix + "&cMissing argument(s): %s"),
         UNKNOWN_ARGUMENT(prefix + "&cUnknown argument: &4%s");
 
+        /* The message text. */
         private String message;
 
+        /**
+         * Constructs a ReplaceMessage.
+         *
+         * @param message The message text.
+         */
         private ReplaceMessage(String message) {
             this.message = message;
         }
 
+        /**
+         * Converts the message into a String and replaces the placeholder text.
+         *
+         * @param replace The replacement text.
+         * @return The message as a formatted String.
+         */
         public String toString(String... replace) {
             return String.format(this.message, (Object[]) replace);
         }

@@ -18,15 +18,25 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import edu.whimc.portals.utils.Messenger.Message;
 
+/**
+ * Main handler for "/portal" root command.
+ */
 public class PortalCommand implements CommandExecutor, TabCompleter {
 
     private Map<String, AbstractSubCommand> subCommands = new HashMap<>();
 
+    /**
+     * Constructs a PortalCommand.
+     *
+     * @param plugin the instance of the plugin.
+     */
     public PortalCommand(Main plugin) {
+        // set up permissions
         Permission perm = new Permission(Main.PERM_PREFIX + ".portal.*");
         perm.addParent(Main.PERM_PREFIX + ".*", true);
         Bukkit.getPluginManager().addPermission(perm);
 
+        // add all subcommands
         subCommands.put("create", new PortalCreate(plugin, "portal", "create"));
         subCommands.put("debug", new PortalDebug(plugin, "portal", "debug"));
         subCommands.put("info", new PortalInfo(plugin, "portal", "info"));
@@ -41,13 +51,18 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
         subCommands.put("tool", new PortalTool(plugin, "portal", "tool"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        // send command usages to user if no arguments provided
         if (args.length == 0){
             sendCommands(sender);
             return true;
         }
 
+        // send command usages to user if subcommand invalid
         AbstractSubCommand subCmd = subCommands.getOrDefault(args[0].toLowerCase(), null);
         if (subCmd == null) {
             sendCommands(sender);
@@ -57,6 +72,9 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
         return subCmd.executeSubCommand(sender, args);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 0) {
@@ -79,6 +97,11 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
         return subCmd.executeOnTabComplete(sender, Arrays.copyOfRange(args, 1, args.length));
     }
 
+    /**
+     * Outputs all commands and their usages in the chat / server logs.
+     *
+     * @param sender the command's sender.
+     */
     private void sendCommands(CommandSender sender){
         Messenger.msg(sender, Message.LINE_COMMAND_LIST.toString());
         subCommands.entrySet()
