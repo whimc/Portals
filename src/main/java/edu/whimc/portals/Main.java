@@ -1,5 +1,7 @@
 package edu.whimc.portals;
 
+import edu.whimc.portals.listeners.*;
+import net.citizensnpcs.api.CitizensPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,10 +12,6 @@ import org.bukkit.util.Vector;
 
 import edu.whimc.portals.commands.destination.DestinationCommand;
 import edu.whimc.portals.commands.portal.PortalCommand;
-import edu.whimc.portals.listeners.PortalBlockChangeListener;
-import edu.whimc.portals.listeners.PortalDamageListener;
-import edu.whimc.portals.listeners.PortalEnterListener;
-import edu.whimc.portals.listeners.ToolSelectListener;
 import edu.whimc.portals.utils.LocationSaver;
 import edu.whimc.portals.utils.MyConfig;
 import edu.whimc.portals.utils.MyConfigManager;
@@ -68,6 +66,11 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new ToolSelectListener(), this);
         pm.registerEvents(new PortalBlockChangeListener(), this);
         pm.registerEvents(new PortalDamageListener(), this);
+
+        // check if Citizens is enabled
+        if (pm.isPluginEnabled("Citizens")) {
+            pm.registerEvents(new PortalEnterCitizensListener(), this);
+        }
 
         PortalCommand pc = new PortalCommand(this);
         getCommand("portal").setExecutor(pc);
