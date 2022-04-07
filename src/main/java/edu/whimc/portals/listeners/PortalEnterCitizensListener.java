@@ -37,7 +37,8 @@ public class PortalEnterCitizensListener implements Listener {
         Destination dest = portal.getDestination();
         if (!dest.isValid()) { return; }
 
-        // TODO: check if portal allows citizens
+        // Do nothing if portal does not allow citizens
+        if (!portal.getAllowCitizens()) { return; }
 
         // teleport citizen
         npc.teleport(dest.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);

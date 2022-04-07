@@ -49,6 +49,7 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
         subCommands.put("setfiller", new PortalSetFiller(plugin, "portal", "setfiller"));
         subCommands.put("teleport", new PortalTeleport(plugin, "portal", "teleport"));
         subCommands.put("tool", new PortalTool(plugin, "portal", "tool"));
+        subCommands.put("allowcitizens", new PortalAllowCitizens(plugin, "portal", "allowcitizens"));
     }
 
     /**
@@ -57,7 +58,7 @@ public class PortalCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         // send command usages to user if no arguments provided
-        if (args.length == 0){
+        if (args.length == 0) {
             sendCommands(sender);
             return true;
         }

@@ -62,6 +62,9 @@ public class Portal {
     /** If the portal is valid. */
     private boolean valid = true;
 
+    /** If the portal allows citizens to use it. */
+    private boolean allowCitizens = false;
+
     /**
      * Creates a Portal.
      *
@@ -655,4 +658,17 @@ public class Portal {
         return "&f&o" + this.name;
     }
 
+    /**
+     * Sets if Citizens NPCs are allowed to use the portal.
+     *
+     * @param allowCitizens Allow Citizens NPCs to use the portal.
+     */
+    public void setAllowCitizens(boolean allowCitizens) {
+        this.allowCitizens = allowCitizens;
+    }
+
+    /** If Citizens NPCs are allowed to use the portal. */
+    public boolean getAllowCitizens() {
+        return allowCitizens;
+    }
 }
