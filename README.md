@@ -15,35 +15,41 @@ $ mvn install
 
 Note: `/destination purge` and `/portal purge` require [specific keywords defined below these commands](#definitions).
 
-| Command                                                     | Description                                                        |
-|-------------------------------------------------------------|--------------------------------------------------------------------|
-|`/destination change <destination_name>`                     | Sets the location of a destination to the user's current position. |
-|`/destination clear <portal_name>`                           | Removes the destination of a portal.                               |
-|`/destination create <destination_name>`                     | Creates a new destination at the user's current position.          |
-|`/destination info <destination_name>`                       | Displays information about the current destination.                |
-|`/destination list`                                          | Displays a list of all the existing destinations.                  |
-|`/destination purge <'invalid'/'no-portals'/'both'>`         | Purges any unused and / or invalid destinations.                   |
-|`/destination remove <destination_name>`                     | Removes a destination.                                             |
-|`/destination set <portal_name> <destination_name>`          | Sets the destination of a portal.                                  |
-|`/destination sethere <portal_name>`                         | Sets the destination of the portal to the user's current location. |
-|`/destination teleport <destination_name>`                   | Teleports the user to the provided destination.                    |
-|`/portal create <portal_name>`                               | Creates a permissionless portal using the selected area.           |
-|`/portal debug`                                              | Displays information about the portal being entered (no teleport). |
-|`/portal info <portal_name>`                                 | Displays information about a portal.                               |
-|`/portal list`                                               | Lists all existing portals.                                        |
-|`/portal permission whimc-portals.entry.<permission_suffix>` | Sets or removes portal permissions.                                |
-|`/portal purge <'invalid'/'no-destination'/'both'>`          | Purges any unused and / or invalid portals.                        |
-|`/portal refill <portal_name>`                               | Regenerates the filler of a portal.                                |
-|`/portal remove <portal_name>`                               | Removes a portal.                                                  |
-|`/portal reshape <portal_name>`                              | Reshape a portal to your current selection.                        |
-|`/portal setfiller <portal_name> <block_type>`               | Sets the filler of a portal.                                       |
-|`/portal teleport <portal_name>`                             | Teleports the user to the provided portal.                         |
-|`/portal tool`                                               | Gives user the portal selector tool.                               |
+| Command                                                      | Description                                                        |
+|--------------------------------------------------------------|--------------------------------------------------------------------|
+| `/destination change <destination_name>`                     | Sets the location of a destination to the user's current position. |
+| `/destination clear <portal_name>`                           | Removes the destination of a portal.                               |
+| `/destination create <destination_name>`                     | Creates a new destination at the user's current position.          |
+| `/destination info <destination_name>`                       | Displays information about the current destination.                |
+| `/destination list`                                          | Displays a list of all the existing destinations.                  |
+| `/destination purge <'invalid'/'no-portals'/'both'>`         | Purges any unused and / or invalid destinations.                   |
+| `/destination remove <destination_name>`                     | Removes a destination.                                             |
+| `/destination set <portal_name> <destination_name>`          | Sets the destination of a portal.                                  |
+| `/destination sethere <portal_name>`                         | Sets the destination of the portal to the user's current location. |
+| `/destination teleport <destination_name>`                   | Teleports the user to the provided destination.                    |
+| `/portal create <portal_name>`                               | Creates a permissionless portal using the selected area.           |
+| `/portal debug`                                              | Displays information about the portal being entered (no teleport). |
+| `/portal info <portal_name>`                                 | Displays information about a portal.                               |
+| `/portal list`                                               | Lists all existing portals.                                        |
+| `/portal permission whimc-portals.entry.<permission_suffix>` | Sets or removes portal permissions.                                |
+| `/portal purge <'invalid'/'no-destination'/'both'>`          | Purges any unused and / or invalid portals.                        |
+| `/portal refill <portal_name>`                               | Regenerates the filler of a portal.                                |
+| `/portal remove <portal_name>`                               | Removes a portal.                                                  |
+| `/portal reshape <portal_name>`                              | Reshape a portal to your current selection.                        |
+| `/portal setfiller <portal_name> <block_type>`               | Sets the filler of a portal.                                       |
+| `/portal teleport <portal_name>`                             | Teleports the user to the provided portal.                         |
+| `/portal tool`                                               | Gives user the portal selector tool.                               |
+| `/portal allowcitizens <portal_name>`                        | Allows Citizens NPCs to use the specified portal.                  |
 
 ### Definitions
 - `invalid` means that the destination/portal is in a non-existent world (used in `/destination purge` and `/portal purge`)
 - `no-portals` means that the destination has no linked portals (used in `/destination purge`)
 - `no-destination` means that the portal has no linked destinations (used in `/portal purge`)
+
+### Notes About Citizens Integration
+- the pathing waypoint must be set 1 block behind the portal so that a Citizen steps on the portal block
+- Citizens will swim up water filled portals
+- Citizens will not go through lava filled portals
 
 ### How to Create a Portal
 
