@@ -120,7 +120,9 @@ public class Main extends JavaPlugin {
                 String fillerName = portalData.getString("Portals." + key + ".filler", "");
                 Material filler = Material.matchMaterial(fillerName);
 
-                Portal.loadPortal(this, key, permission, portalWorldName, pos1, pos2, dest, filler);
+                boolean allowCitizens = portalData.getBoolean("Portals." + key + ".allowcitizens");
+
+                Portal.loadPortal(this, key, permission, portalWorldName, pos1, pos2, dest, filler, allowCitizens);
             }
         }
     }
