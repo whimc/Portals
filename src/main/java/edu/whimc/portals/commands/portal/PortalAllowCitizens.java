@@ -4,13 +4,15 @@ import edu.whimc.portals.Main;
 import edu.whimc.portals.Portal;
 import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * The command to allow Citizens NPCs to use a portal.
+ * Command: "/portal allowcitizens"
+ */
 public class PortalAllowCitizens extends AbstractSubCommand {
     /**
      * Constructs a PortalAllowCitizens command with the given arguments.
@@ -22,6 +24,7 @@ public class PortalAllowCitizens extends AbstractSubCommand {
     public PortalAllowCitizens(Main plugin, String baseCommand, String subCommand) {
         super(plugin, baseCommand, subCommand);
         super.description("Toggles Citizens NPCs' ability to travel through the portal.");
+        super.arguments("portal");
         super.requiresPlayer();
     }
 
