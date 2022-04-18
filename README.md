@@ -47,7 +47,7 @@ Note: `/destination purge` and `/portal purge` require [specific keywords define
 - `no-destination` means that the portal has no linked destinations (used in `/portal purge`)
 
 ### Notes About Citizens Integration
-- the pathing waypoint must be set 1 block behind the portal so that a Citizen steps on the portal block
+- The pathing waypoint must be set 1 block behind the portal so that a Citizen steps on the portal block
 - Citizens will swim up water filled portals
 - Citizens will not go through lava filled portals
 
