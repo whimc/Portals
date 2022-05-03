@@ -61,7 +61,7 @@ After this, you'll want to configure a destination.
 
 ### How to Create and Set a Destination
 
-Destinations are independent of portals, so you can have many portals link to a single destination. To create a destination, stand where you'd like it to be and do:
+Destinations are independent of portals, so you can have many portals link to a single destination. To create a destination, stand where you'd like it to be and run:
 
 ```
 /destination create <destination_name>
