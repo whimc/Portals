@@ -1,5 +1,7 @@
 package edu.whimc.portals;
 
+import edu.whimc.portals.listeners.*;
+import net.citizensnpcs.api.CitizensPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,10 +12,6 @@ import org.bukkit.util.Vector;
 
 import edu.whimc.portals.commands.destination.DestinationCommand;
 import edu.whimc.portals.commands.portal.PortalCommand;
-import edu.whimc.portals.listeners.PortalBlockChangeListener;
-import edu.whimc.portals.listeners.PortalDamageListener;
-import edu.whimc.portals.listeners.PortalEnterListener;
-import edu.whimc.portals.listeners.ToolSelectListener;
 import edu.whimc.portals.utils.LocationSaver;
 import edu.whimc.portals.utils.MyConfig;
 import edu.whimc.portals.utils.MyConfigManager;
@@ -32,11 +30,15 @@ public class Main extends JavaPlugin {
     /** The instance of the location saver. */
     private LocationSaver locationSaver;
 
+    /** Instance variable storing whether Citizens Plugin is enabled*/
+    private boolean citizensEnabled;
+
     @Override
     public void onEnable() {
         manager = new MyConfigManager(this);
         portalData = manager.getNewConfig("portalData.yml");
         locationSaver = new LocationSaver(this);
+        citizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");
 
         Permission parent = new Permission(PERM_PREFIX + ".*");
         Bukkit.getPluginManager().addPermission(parent);
@@ -59,6 +61,9 @@ public class Main extends JavaPlugin {
         return locationSaver;
     }
 
+    /** @return Status of Citizens Plugin */
+    public boolean getPluginStatus() { return citizensEnabled;}
+
     /**
      * Registers event listeners and sub-commands.
      */
@@ -68,6 +73,11 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new ToolSelectListener(), this);
         pm.registerEvents(new PortalBlockChangeListener(), this);
         pm.registerEvents(new PortalDamageListener(), this);
+
+        // check if Citizens is enabled
+        if (citizensEnabled) {
+            pm.registerEvents(new PortalEnterCitizensListener(), this);
+        }
 
         PortalCommand pc = new PortalCommand(this);
         getCommand("portal").setExecutor(pc);
@@ -117,7 +127,9 @@ public class Main extends JavaPlugin {
                 String fillerName = portalData.getString("Portals." + key + ".filler", "");
                 Material filler = Material.matchMaterial(fillerName);
 
-                Portal.loadPortal(this, key, permission, portalWorldName, pos1, pos2, dest, filler);
+                boolean allowCitizens = portalData.getBoolean("Portals." + key + ".allowcitizens");
+
+                Portal.loadPortal(this, key, permission, portalWorldName, pos1, pos2, dest, filler, allowCitizens);
             }
         }
     }

@@ -62,6 +62,9 @@ public class Portal {
     /** If the portal is valid. */
     private boolean valid = true;
 
+    /** If the portal allows citizens to use it. */
+    private boolean allowCitizens;
+
     /**
      * Creates a Portal.
      *
@@ -74,7 +77,7 @@ public class Portal {
      * @return The new Portal.
      */
     public static Portal createPortal(Main plugin, String name, String permission, World world, Vector pos1, Vector pos2) {
-        return new Portal(plugin, name, permission, world.getName(), pos1, pos2, null, defaultFiller, true);
+        return new Portal(plugin, name, permission, world.getName(), pos1, pos2, null, defaultFiller, false, true);
     }
 
     /**
@@ -90,8 +93,8 @@ public class Portal {
      * @param filler The filler materials of the portal.
      * @return The loaded portal.
      */
-    public static Portal loadPortal(Main plugin, String name, String permission, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler) {
-        return new Portal(plugin, name, permission, worldName, pos1, pos2, destination, filler, false);
+    public static Portal loadPortal(Main plugin, String name, String permission, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler, boolean allowCitizens) {
+        return new Portal(plugin, name, permission, worldName, pos1, pos2, destination, filler, allowCitizens, false);
     }
 
     /**
@@ -107,7 +110,7 @@ public class Portal {
      * @param filler The filler materials of the portal.
      * @param isNew If the portal is a newly created one.
      */
-    private Portal(Main plugin, String name, String permission, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler, boolean isNew){
+    private Portal(Main plugin, String name, String permission, String worldName, Vector pos1, Vector pos2, Destination destination, Material filler, boolean allowCitizens, boolean isNew){
         this.plugin = plugin;
         this.name = name;
         this.worldName = worldName;
@@ -120,6 +123,7 @@ public class Portal {
         } else {
             this.filler = filler;
         }
+        this.allowCitizens = allowCitizens;
 
         if(isNew) {
             setConfig("world", worldName);
@@ -129,6 +133,7 @@ public class Portal {
                 setConfig("filler", this.filler.toString());
             setConfig("permission", permission);
             setConfig("destination", destination == null ? Destination.NONE : name);
+            setConfig("allowcitizens", this.allowCitizens);
             saveConfig();
         }
         portals.add(this);
@@ -655,4 +660,19 @@ public class Portal {
         return "&f&o" + this.name;
     }
 
+    /**
+     * Sets if Citizens NPCs are allowed to use the portal.
+     *
+     * @param allowCitizens Allow Citizens NPCs to use the portal.
+     */
+    public void setAllowCitizens(boolean allowCitizens) {
+        this.allowCitizens = allowCitizens;
+        setConfig("allowcitizens", this.allowCitizens);
+        saveConfig();
+    }
+
+    /** If Citizens NPCs are allowed to use the portal. */
+    public boolean getAllowCitizens() {
+        return allowCitizens;
+    }
 }

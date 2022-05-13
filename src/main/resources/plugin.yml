@@ -5,7 +5,7 @@ author: Jack Henhapl
 api-version: 1.14
 main: edu.whimc.portals.Main
 load: POSTWORLD
-softdepend: [Multiverse-Core]
+softdepend: [Multiverse-Core, Citizens]
 commands:
   portal:
     description: Root command for WHIMC Portals
