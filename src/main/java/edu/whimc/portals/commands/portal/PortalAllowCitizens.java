@@ -6,6 +6,7 @@ import edu.whimc.portals.commands.AbstractSubCommand;
 import edu.whimc.portals.utils.Messenger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.Material;
 
 import java.util.List;
 
@@ -25,12 +26,16 @@ public class PortalAllowCitizens extends AbstractSubCommand {
         super(plugin, baseCommand, subCommand);
         super.description("Toggles Citizens NPCs' ability to travel through the portal.");
         super.arguments("portal");
-        super.requiresPlayer();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player player = (Player) sender;
+
+        // notify if Citizens plugin is not loaded and abort command execution
+        if(!plugin.getPluginStatus()) {
+            Messenger.msg(sender, "Citizens plugin is not loaded");
+            return true;
+        }
 
         // notify if portal does not exist and abort command execution
         Portal portal = Portal.getPortal(args[0]);
@@ -48,6 +53,14 @@ public class PortalAllowCitizens extends AbstractSubCommand {
 
         portal.setAllowCitizens(!portal.getAllowCitizens());
         Messenger.msg(sender, portal.getName() + " allows citizens: " + portal.getAllowCitizens());
+
+        // Notify consequences of water/lava filler
+        if (portal.getFiller() == Material.WATER) {
+            Messenger.msg(sender,  Messenger.ReplaceMessage.WATER_FILLER);
+        }
+        if (portal.getFiller() == Material.LAVA) {
+            Messenger.msg(sender, Messenger.ReplaceMessage.LAVA_FILLER);
+        }
 
         return true;
     }

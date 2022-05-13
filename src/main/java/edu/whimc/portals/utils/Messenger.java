@@ -241,7 +241,9 @@ public class Messenger {
         INVALID_FILLER(prefix + "&c'&4%s&c' is an invalid filler type!&r\n  &7(Valid fillers: %s)"),
         SUGGEST_DELETE("  (&7You may want to delete it with \"&o%s&7\")"),
         MISSING_ARGUMENTS(prefix + "&cMissing argument(s): %s"),
-        UNKNOWN_ARGUMENT(prefix + "&cUnknown argument: &4%s");
+        UNKNOWN_ARGUMENT(prefix + "&cUnknown argument: &4%s"),
+        WATER_FILLER(prefix + "Citizens will swim up water filled portals"),
+        LAVA_FILLER(prefix + "Citizens will not go through lava filled portals");
 
         /* The message text. */
         private String message;

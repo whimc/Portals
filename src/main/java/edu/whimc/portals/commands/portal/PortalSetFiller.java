@@ -67,6 +67,17 @@ public class PortalSetFiller extends AbstractSubCommand {
         // set the filler block of the portal
         portal.setFiller(mat);
         Messenger.msg(sender, ReplaceMessage.PORTAL_FILLER_SET, portal.getName(), mat.toString());
+
+        // if portal allows citizens, notify consequences of water/lava filler
+        if (portal.getAllowCitizens()) {
+            if (portal.getFiller() == Material.WATER) {
+                Messenger.msg(sender,  ReplaceMessage.WATER_FILLER);
+            }
+            if (portal.getFiller() == Material.LAVA) {
+                Messenger.msg(sender, ReplaceMessage.LAVA_FILLER);
+            }
+        }
+
         return true;
     }
 

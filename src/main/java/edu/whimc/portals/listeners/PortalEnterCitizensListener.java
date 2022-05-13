@@ -20,7 +20,7 @@ public class PortalEnterCitizensListener implements Listener {
      *
      * @param event The Citizens NavigationCompleteEvent
      */
-    @EventHandler(priority = EventPriority.NORMAL)
+
     public void onCitizenEndNavigation(NavigationCompleteEvent event) {
         // get NPC information
         NPC npc = event.getNPC();

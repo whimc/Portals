@@ -30,11 +30,15 @@ public class Main extends JavaPlugin {
     /** The instance of the location saver. */
     private LocationSaver locationSaver;
 
+    /** Instance variable storing whether Citizens Plugin is enabled*/
+    private boolean citizensEnabled;
+
     @Override
     public void onEnable() {
         manager = new MyConfigManager(this);
         portalData = manager.getNewConfig("portalData.yml");
         locationSaver = new LocationSaver(this);
+        citizensEnabled = Bukkit.getPluginManager().isPluginEnabled("Citizens");
 
         Permission parent = new Permission(PERM_PREFIX + ".*");
         Bukkit.getPluginManager().addPermission(parent);
@@ -57,6 +61,9 @@ public class Main extends JavaPlugin {
         return locationSaver;
     }
 
+    /** @return Status of Citizens Plugin */
+    public boolean getPluginStatus() { return citizensEnabled;}
+
     /**
      * Registers event listeners and sub-commands.
      */
@@ -68,7 +75,7 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PortalDamageListener(), this);
 
         // check if Citizens is enabled
-        if (pm.isPluginEnabled("Citizens")) {
+        if (citizensEnabled) {
             pm.registerEvents(new PortalEnterCitizensListener(), this);
         }
 
