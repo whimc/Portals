@@ -43,4 +43,13 @@ jobs:
           NEW_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           git add pom.xml
           git commit -m "[skip release] Bump version to ${NEW_VERSION}"
-          git push
+          if ! git push; then
+            BRANCH="version-bump-${NEW_VERSION}"
+            git checkout -b "${BRANCH}"
+            git push -u origin "${BRANCH}"
+            gh pr create --title "[skip release] Bump version to ${NEW_VERSION}" \
+              --body "Automated patch version bump after release." \
+              --base master --head "${BRANCH}"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
