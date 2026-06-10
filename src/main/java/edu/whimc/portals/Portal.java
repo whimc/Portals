@@ -136,7 +136,9 @@ public class Portal {
         World world = Bukkit.getWorld(worldName);
 
         if (world == null) {
-            Bukkit.getLogger().info("Error loading portal - world does not exist!");
+            Bukkit.getLogger().warning(String.format(
+                    "Error loading portal '%s' - world '%s' does not exist!",
+                    this.name, this.worldName));
             this.valid = false;
             return;
         }
@@ -645,7 +647,7 @@ public class Portal {
     @Override
     public String toString() {
         if (!this.valid) {
-            return "&c*&7&o" + this.name + "&7 (world does not exist)";
+            return "&c*&7&o" + this.name + "&7 (world '" + this.worldName + "' does not exist)";
         }
 
         if (!this.hasDestination()) {
